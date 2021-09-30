@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 02:35:07 by vkuklys          ###   ########.fr       */
+<<<<<<< HEAD
+/*   Updated: 2021/09/30 02:35:19 by vkuklys          ###   ########.fr       */
+=======
+/*   Updated: 2021/09/30 10:24:15 by jludt            ###   ########.fr       */
+>>>>>>> 56c1bb67dc26990b6522f4600bb723ffae2f9b65
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +61,15 @@ void process_command_line(char **cmd_line, char **env)
     	write(1, output, ft_strlen(output));
 		write(1, "\n", 1);
 	}
-	// else if (!ft_strncmp(cmd, "echo", 4))
-	// {
-	// 	output = get_echo(*cmd_line + 5, cmd);
-	// }
+	else if (!ft_strncmp(cmd, "echo", 4))
+	{
+		output = get_echo(*cmd_line + 4);
+        write(1, output, ft_strlen(output));
+	}
+	else if (!ft_strncmp(cmd, "env", 3))
+    {
+		get_env(env);
+    }
 	else if (cmd[0] != '\0')
 	{
 		write(1, "minishell: command not found: ", 31);
@@ -73,13 +82,12 @@ void process_command_line(char **cmd_line, char **env)
 		return ;
 }
 
-void process_signal(int signum)
-{
-	write(2, "\b\b  ", 4);
-	if (signum == SIGINT)
-		print_prompt(ERR0R_PROMPT);
-}
-
+// void process_signal(int signum)
+// {
+// 	write(2, "\b\b  ", 4);
+// 	if (signum == SIGINT)
+// 		print_prompt(ERR0R_PROMPT);
+// }
 
 int main(int argc, char **argv, char **env)
 {
@@ -90,7 +98,7 @@ int main(int argc, char **argv, char **env)
     bytes = 1;
 	if (argc == 0 && argv == NULL)
 		argc = 0;
-    signal(SIGINT, process_signal);
+    // signal(SIGINT, process_signal);
 	print_prompt(PROMPT);
 	cmd_line = ft_calloc(1, 1);
     while(bytes > 0)
@@ -136,3 +144,5 @@ int main(int argc, char **argv, char **env)
 
     // while(1)
     //     pause();
+
+    //test

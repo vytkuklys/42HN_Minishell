@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 00:08:33 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/09/30 22:04:27 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,6 @@ int				ft_puthexa_fd(unsigned long n, int fd, int upper);
 int				get_min(int a, int b);
 char			*ft_free_2d_array(char ***arr, unsigned int allocated);
 int				ft_strlen_2d(char **s);
-
+int				ft_strrstr(const char *big, const char *lil);
 
 #endif

@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 12:29:02 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/30 21:36:25 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/09/30 09:21:19 by jludt             #+#    #+#             */
+/*   Updated: 2021/09/30 09:24:41 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int
-	ft_strlen(const char *str)
+void	get_env(char *envp[])
 {
-	int	count;
+	int	i;
 
-	count = 0;
-	if (!str || str == NULL)
-		return (0);
-	while (str[count] != '\0')
-		count++;
-	return (count);
+	i = 0;
+	while (envp[i] != NULL)
+		printf("%s\n", envp[i++]);
 }

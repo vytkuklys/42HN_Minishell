@@ -2,7 +2,7 @@
 
 NAME=minishell
 FLAGS=-Werror -Wextra -Wall
-SRC= src/main.c src/helpers/printer.c
+SRC= src/main.c src/helpers/printer.c src/builtins/env.c
 INCLUDES=libft/libft.a
 
 all: $(NAME_SERVER) $(NAME_CLIENT)

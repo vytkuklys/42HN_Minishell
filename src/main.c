@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 02:35:07 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/09/30 10:24:15 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ void process_command_line(char **cmd_line, char **env)
     	write(1, output, ft_strlen(output));
 		write(1, "\n", 1);
 	}
+	else if (!ft_strncmp(cmd, "env", 3))
+		get_env(env);
 	// else if (!ft_strncmp(cmd, "echo", 4))
 	// {
 	// 	output = get_echo(*cmd_line + 5, cmd);

@@ -1,28 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strncmp.c                                       :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 12:29:15 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/30 09:45:21 by jludt            ###   ########.fr       */
+/*   Created: 2021/09/30 09:21:19 by jludt             #+#    #+#             */
+/*   Updated: 2021/09/30 09:24:41 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_strncmp(const char *str1, const char *str2, size_t n)
+void	get_env(char *envp[])
 {
-	size_t	i;
+	int	i;
 
-	if (!n || (size_t)ft_strlen(str2) != n)
-		return (0);
-	if (!n)
-		return (0);
 	i = 0;
-	while (i < n - 1 && *(str1 + i) && *(str1 + i) == *(str2 + i) && *(str2 + i))
-		i++;
-	return (*((unsigned char *)str1 + i) - *((unsigned char *)str2 + i));
+	while (envp[i] != NULL)
+		printf("%s\n", envp[i++]);
 }
-

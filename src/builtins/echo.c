@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:02:31 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/30 23:30:52 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/01 01:48:57 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,14 @@ char *get_start_of_quote(char *cmd_line)
 
 int get_end_of_quote_pos(char *str)
 {
-	 int i;
-
+	int i;
 	if (str == NULL) //add clean exit / free stuff
         return (-1);
     i = 1;
     while (str[i] != '\0' && str[i] != str[0])
 	{
-		if (str[i] == '\\' && str[i + 1] == str[0])
-			i++;
+		// if (str[i] == '\\' && str[i + 1] == str[0])
+		// 	i++;
         i++;
 	}
     if (str[i] == str[0])
@@ -48,7 +47,7 @@ int get_end_of_quote_pos(char *str)
     return (-1);
 }
 
-char *get_text_outside_quotes(char *cmd_line)
+char *get_text_outside_quotes(char *cmd_line, char first)
 {
     char	*str;
     int		i;
@@ -59,7 +58,10 @@ char *get_text_outside_quotes(char *cmd_line)
     str = ft_calloc(ft_strlen(cmd_line) - spaces + 1, 1);
     if (str == NULL) //add clean exit / free stuff
         return (NULL);
-    i = spaces;
+	if (first && cmd_line[0] == ' ')
+    	i = spaces - 1;
+	else
+		i = spaces;
     j = 0;
     while (cmd_line[i] != '\0' && !ft_strchr("\"';|", cmd_line[i]))
 		i += add_char_to_text(&str, &cmd_line[i], &j) + 1;
@@ -71,15 +73,13 @@ char *get_text_in_quotes(char *start)
 	int	i;
 	int j;
 	char *quote;
-	char quote_mark;
 
-	quote_mark = start[0];
 	quote = ft_calloc(ft_strlen(start), 1);
 	if (quote == NULL)
 		return (NULL);
 	i = 1;
 	j = 0;
-	while (start[i] != '\0' && start[i] != quote_mark)
+	while (start[i] != '\0' && start[i] != start[0])
 	{
 		if (start[i] == '\\')
 		{
@@ -90,6 +90,8 @@ char *get_text_in_quotes(char *start)
 		j++;
 		i++;
 	}
+	if (start[i] == '\0')
+		return free_str(&quote);
 	return (quote);
 }
 
@@ -124,22 +126,21 @@ int add_text_echo(char **output, char *cmd_line)
 	char	*tmp_out;
 
 	len = ft_strlen(cmd_line);
-	fprintf(stderr, "%d\n", len);
 	i = 0;
 	while (i <= len && i != -1)
 	{
-    	tmp_out = get_text_outside_quotes(&cmd_line[i]);
+    	tmp_out = get_text_outside_quotes(&cmd_line[i], i);
 		*output = ft_strjoin(output, tmp_out);
-		free_str(tmp_out);
+		free_str(&tmp_out);
 		start = get_start_of_quote(&cmd_line[i]);
 		if (start == NULL)
-			return (1);
+			break ;
 		tmp_in = get_text_in_quotes(start);
 		if (tmp_in == NULL) //add clean exit / free stuff
 			return (1);
 		i = ft_strrstr(cmd_line, start) + get_end_of_quote_pos(start) + 1;
 		*output = ft_strjoin(output, tmp_in);
-		free_str(tmp_in);
+		free_str(&tmp_in);
 	}
 	return (0);
 }
@@ -148,16 +149,19 @@ char    *get_echo(char *cmd_line)
 {
 	char	*output;
 	int		flag;
+	int		error;
 
     output = ft_calloc(1, 1);
     if (output == NULL) //add clean exit / free stuff
         return (NULL);
 	flag = is_echo_flag_set(cmd_line);	
-	if (!flag)
-		add_text_echo(&output, &cmd_line[flag]);
+	if (flag)
+		error = add_text_echo(&output, &cmd_line[flag]);
 	else
-		add_text_echo(&output, cmd_line);
+		error = add_text_echo(&output, cmd_line);
 	if (!is_echo_flag_set(cmd_line))
 		output = ft_strjoin(&output, "\n");
+	if (error)
+		free_str(&output);
 	return (output);
 }

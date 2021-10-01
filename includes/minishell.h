@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/30 23:44:29 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/01 01:47:54 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int     get_whitespace(char *cmd_line);
 int     add_char_to_text(char **str, char *cmd_line, int *j);
 int     add_slashes(char **quote, char *start, int *j);
 int     ft_strrstr(const char *big, const char *lil);
-char    *free_str(char *str);
+char    *free_str(char **str);
 void	get_env(char *envp[]);
 
 #endif

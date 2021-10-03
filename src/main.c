@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/01 02:20:13 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/02 22:35:02 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,24 +42,24 @@ char	*get_pwd(char *cmd_line)
     return (output);
 }
 
-int process_command_line(char **cmd_line, char **env, int bytes)
+int process_command_line(char **cmd_line, char **env)
 {
     char *cmd;
     char *output;
 
-	if (env == NULL)
+	if (*env == NULL)
 		return (0);
     output = NULL;
     cmd = get_command(*cmd_line);
     if (!ft_strncmp(cmd, "pwd", 3))
 	{
-        output = get_pwd(*cmd_line + 4);
+        output = get_pwd((*cmd_line) + 4);
     	write(1, output, ft_strlen(output));
 		write(1, "\n", 1);
 	}
 	else if (!ft_strncmp(cmd, "echo", 4))
 	{
-		output = get_echo(*cmd_line + 4);
+		output = get_echo((*cmd_line) + 4);
         write(1, output, ft_strlen(output));
 	}
 	else if (!ft_strncmp(cmd, "env", 3))
@@ -67,7 +67,12 @@ int process_command_line(char **cmd_line, char **env, int bytes)
 		get_env(env);
     }
     else if (!ft_strncmp(cmd, "exit", 4))
-        return (0);  
+    {
+        output = get_exit((*cmd_line) + 4);
+        if (!output)
+            return (0);
+        write(1, output, ft_strlen(output));
+    }
 	else if (cmd[0] != '\0')
 	{
 		write(1, "minishell: command not found: ", 31);
@@ -78,7 +83,7 @@ int process_command_line(char **cmd_line, char **env, int bytes)
     *cmd_line = ft_calloc(1, 1);
 	if (*cmd_line == NULL) //add clean exit
 		return (0);
-    return (bytes);
+    return (1);
 }
 
 void process_signal(int signum)
@@ -109,8 +114,7 @@ int main(int argc, char **argv, char **env)
         buff[bytes] = '\0';
         if (buff[0] == '\n')
         {
-            bytes = process_command_line(&cmd_line, env, bytes);
-            if (bytes == 0)
+            if (!process_command_line(&cmd_line, env))
                 break ;
             print_prompt(PROMPT);
         }

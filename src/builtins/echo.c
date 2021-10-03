@@ -6,162 +6,78 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:02:31 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/01 01:48:57 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/03 02:41:42 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get_start_of_quote(char *cmd_line)
-{
-    int i;
-
-	if (cmd_line == NULL) //add clean exit / free stuff
-        return (NULL);
-    i = 0;
-    while (!(cmd_line[i] == '\0' || cmd_line[i] == '\'' || cmd_line[i] == '\"'))
-	{
-		if (cmd_line[i] == '\\' && ft_strchr("'\"", cmd_line[i + 1]))
-			i++;
-        i++;
-	}
-    if (cmd_line[i] != '\0')
-		return &cmd_line[i];
-    return (NULL);
-}
-
-int get_end_of_quote_pos(char *str)
-{
-	int i;
-	if (str == NULL) //add clean exit / free stuff
-        return (-1);
-    i = 1;
-    while (str[i] != '\0' && str[i] != str[0])
-	{
-		// if (str[i] == '\\' && str[i + 1] == str[0])
-		// 	i++;
-        i++;
-	}
-    if (str[i] == str[0])
-		return (i);
-    return (-1);
-}
-
-char *get_text_outside_quotes(char *cmd_line, char first)
-{
-    char	*str;
-    int		i;
-    int		j;
-	int		spaces;
-
-	spaces = get_whitespace(cmd_line);
-    str = ft_calloc(ft_strlen(cmd_line) - spaces + 1, 1);
-    if (str == NULL) //add clean exit / free stuff
-        return (NULL);
-	if (first && cmd_line[0] == ' ')
-    	i = spaces - 1;
-	else
-		i = spaces;
-    j = 0;
-    while (cmd_line[i] != '\0' && !ft_strchr("\"';|", cmd_line[i]))
-		i += add_char_to_text(&str, &cmd_line[i], &j) + 1;
-    return (str);
-}
-
-char *get_text_in_quotes(char *start)
-{
-	int	i;
-	int j;
-	char *quote;
-
-	quote = ft_calloc(ft_strlen(start), 1);
-	if (quote == NULL)
-		return (NULL);
-	i = 1;
-	j = 0;
-	while (start[i] != '\0' && start[i] != start[0])
-	{
-		if (start[i] == '\\')
-		{
-			i += add_slashes(&quote, &start[i], &j);
-			continue ;
-		}
-		quote[j] = start[i];
-		j++;
-		i++;
-	}
-	if (start[i] == '\0')
-		return free_str(&quote);
-	return (quote);
-}
-
-int is_echo_flag_set(char *cmd_line)
+int is_echo_flag_set(char *arg)
 {
 	int		i;
 	int		j;
-	char	flag[4];
+	char	flag[3];
 
 	i = 0;
 	j = 0;
-	while (cmd_line[i] != '\0' && j < 3)
+	while (arg[i] != '\0' && j < 2)
 	{
-		if (cmd_line[i] == ' ' && i == 0)
-			i += get_whitespace(cmd_line);
-		flag[j] = cmd_line[i];
+		flag[j] = arg[i];
 		j++;		
 		i++;
 	}
 	flag[j] = '\0';
-	if (!ft_strncmp(flag, "-n ", 3))
-		return (i);
+	if (!ft_strncmp(flag, "-n", 2) && arg[i] == '\0')
+		return (1);
 	return (0);
 }
 
-int add_text_echo(char **output, char *cmd_line)
-{
-	char	*start;
-	int		i;
-	int		len;
-	char	*tmp_in;
-	char	*tmp_out;
+// int	process_whitespace(char *arg, int index)
+// {
+// 	while (index > 0)
+// 	{
+		
+// 	}
+// }
 
-	len = ft_strlen(cmd_line);
-	i = 0;
-	while (i <= len && i != -1)
+int	put_echo(char **argv)
+{
+	int i;
+	int	j;
+	int	flag;
+
+	flag = is_echo_flag_set(argv[0]);
+	i = flag;
+	while (argv[i] != NULL)
 	{
-    	tmp_out = get_text_outside_quotes(&cmd_line[i], i);
-		*output = ft_strjoin(output, tmp_out);
-		free_str(&tmp_out);
-		start = get_start_of_quote(&cmd_line[i]);
-		if (start == NULL)
-			break ;
-		tmp_in = get_text_in_quotes(start);
-		if (tmp_in == NULL) //add clean exit / free stuff
-			return (1);
-		i = ft_strrstr(cmd_line, start) + get_end_of_quote_pos(start) + 1;
-		*output = ft_strjoin(output, tmp_in);
-		free_str(&tmp_in);
+		if ((i > 1 && flag) || (i > 0 && flag == 0))
+			write(1, " ", 1);
+		j = 0;
+		while (argv[i][j] != '\0')
+		{
+			// if (argv[i][j] == '\\' && ft_strchr(" \t\v\f\r\b", argv[i][j + 1]))
+			// 	j += process_whitespace(argv[i], j);
+			// else
+				write(1, &argv[i][j], 1);
+			j++;
+		}
+		i++;
 	}
+	if (!flag)
+		write(1, "\n", 1);
 	return (0);
 }
 
 char    *get_echo(char *cmd_line)
 {
-	char	*output;
-	int		flag;
-	int		error;
+	char	**argv;
+	int		argc;
 
-    output = ft_calloc(1, 1);
-    if (output == NULL) //add clean exit / free stuff
-        return (NULL);
-	flag = is_echo_flag_set(cmd_line);	
-	if (flag)
-		error = add_text_echo(&output, &cmd_line[flag]);
-	else
-		error = add_text_echo(&output, cmd_line);
-	if (!is_echo_flag_set(cmd_line))
-		output = ft_strjoin(&output, "\n");
-	if (error)
-		free_str(&output);
-	return (output);
+	argc = get_argc(cmd_line);
+	if (argc == -1)
+		return ("minishell: invalid command line arguments \n");
+	argv = (char **)malloc((argc + 1) * sizeof(char *));
+	get_argv(cmd_line, argv);
+	put_echo(argv);
+	return (NULL);
 }

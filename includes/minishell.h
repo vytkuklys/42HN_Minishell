@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/01 01:47:54 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/03 00:14:26 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,13 @@ int     add_slashes(char **quote, char *start, int *j);
 int     ft_strrstr(const char *big, const char *lil);
 char    *free_str(char **str);
 void	get_env(char *envp[]);
+int     are_slashes_valid(char *cmd_line);
+int     are_quotes_valid(char *cmd_line);
+int     exists_pipes(char *cmd_line);
+int     get_argc(char *cmd_line);
+int     get_argv(char *cmd_line, char **argv);
+int     get_end_of_quote_pos(char *str);
+int     get_end_of_str_pos(char *str);
+char	*get_exit(char *cmd_line);
 
 #endif

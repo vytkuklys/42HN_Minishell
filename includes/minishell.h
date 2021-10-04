@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/03 00:14:26 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/04 02:25:36 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 # include <signal.h>
 # include <fcntl.h>
 # include "../libft/libft.h"
+# include "../gnl/get_next_line.h"
 
 void	print_prompt(int prompt);
-char    *get_echo(char *cmd_line);
+char    *get_echo(char *cmd_line, char **env);
 int     get_whitespace(char *cmd_line);
 int     add_char_to_text(char **str, char *cmd_line, int *j);
 int     add_slashes(char **quote, char *start, int *j);
@@ -41,5 +42,7 @@ int     get_argv(char *cmd_line, char **argv);
 int     get_end_of_quote_pos(char *str);
 int     get_end_of_str_pos(char *str);
 char	*get_exit(char *cmd_line);
+int     get_arg_len(char *cmd_line);
+int     add_char_to_text(char **str, char *cmd_line, int *j);
 
 #endif

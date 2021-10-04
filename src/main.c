@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/02 22:35:02 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/04 00:46:38 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int process_command_line(char **cmd_line, char **env)
     cmd = get_command(*cmd_line);
     if (!ft_strncmp(cmd, "pwd", 3))
 	{
-        output = get_pwd((*cmd_line) + 4);
+        output = get_pwd((*cmd_line) + 3);
     	write(1, output, ft_strlen(output));
 		write(1, "\n", 1);
 	}
 	else if (!ft_strncmp(cmd, "echo", 4))
 	{
-		output = get_echo((*cmd_line) + 4);
-        write(1, output, ft_strlen(output));
+		output = get_echo(*cmd_line, env);
+        // write(1, output, ft_strlen(output));
 	}
 	else if (!ft_strncmp(cmd, "env", 3))
     {
@@ -150,3 +150,13 @@ int main(int argc, char **argv, char **env)
     //     pause();
 
     //test
+
+// int main(int argc, char **argv, char **env)
+// {
+//     if (argc == 0 || argv == NULL || env == NULL)
+//         return 1;
+    
+//     execve("/bin/echo", argv, env);
+//     // write(1, "1", 1);
+//     return (0);
+// }

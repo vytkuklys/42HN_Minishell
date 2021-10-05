@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/05 16:22:46 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/05 19:39:03 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,8 @@ char	**get_path(char *envp[]);
 int		print_error_cmd(char *src);
 void	exit_failure(char **path, char **cmd_n);
 void	free_array(char **src);
+void	execute_compound_commands(t_operators *op,  char *cmd_line, char *envp[]);
+void	close_fds(int pipes, int fd[][2]);
+void	initialize_operators(t_operators *op);
 
 #endif

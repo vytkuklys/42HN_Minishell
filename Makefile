@@ -6,7 +6,7 @@
 #    By: julian <julian@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/05 16:13:46 by julian           ###   ########.fr        #
+#    Updated: 2021/10/05 19:05:35 by julian           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ FLAGS=-Werror -Wextra -Wall
 SRC= src/main.c src/helpers/printer.c src/builtins/echo.c src/parser/argv_utils.c src/helpers/free.c src/builtins/env.c \
 		src/parser/validation.c src/parser/argc.c src/helpers/counter.c src/parser/argv.c src/builtins/exit.c \
 		gnl/get_next_line.c src/helpers/scan_cmd_line.c src/helpers/execute_single_command.c \
-		src/helpers/execute_single_command_utils.c
+		src/helpers/execute_single_command_utils.c src/helpers/execute_compound_commands.c src/helpers/execute_compound_commands_utils.c
 INCLUDES=libft/libft.a
 
 all:

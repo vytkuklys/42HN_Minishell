@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:59:36 by julian            #+#    #+#             */
-/*   Updated: 2021/10/05 16:20:01 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/05 20:16:43 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	check_single_command(char *cmd0, char *envp[])
 	}
 	free_array(path);
 	free_array(command);
+	cmd0 = ft_strtrim(cmd0, " ");
 	return (print_error_cmd(cmd0));
 }
 

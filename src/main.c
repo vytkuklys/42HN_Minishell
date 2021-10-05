@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/05 16:24:38 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/05 19:40:00 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int process_command_line(char **cmd_line, char **env)
 	if (*env == NULL)
 		return (0);
     output = NULL;
+    initialize_operators(&operators);
     if (scan_cmd_line(&operators, *cmd_line) == 1)
     {
         free(*cmd_line);
@@ -86,6 +87,15 @@ int process_command_line(char **cmd_line, char **env)
         }
         else if (cmd[0] != '\0')
             execute_single_command(*cmd_line, env);
+        free(*cmd_line);
+        *cmd_line = ft_calloc(1, 1);
+        if (*cmd_line == NULL) //add clean exit
+            return (0);
+        return (1);
+    }
+    else if (operators.pipes > 0)
+    {
+        execute_compound_commands(&operators, *cmd_line, env);
         free(*cmd_line);
         *cmd_line = ft_calloc(1, 1);
         if (*cmd_line == NULL) //add clean exit

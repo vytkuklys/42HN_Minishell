@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/05 19:40:00 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/06 17:03:00 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,23 +62,24 @@ int process_command_line(char **cmd_line, char **env)
     }
     if (operators.pipes == 0) // single command
     {
+        *cmd_line = ft_strtrim(*cmd_line, " ");
         cmd = get_command(*cmd_line);
-        if (!ft_strncmp(cmd, "pwd", 3))
+        if (!ft_strcmp(cmd, "pwd"))
         {
             output = get_pwd((*cmd_line) + 3);
             write(1, output, ft_strlen(output));
             write(1, "\n", 1);
         }
-        else if (!ft_strncmp(cmd, "echo", 4))
+        else if (!ft_strcmp(cmd, "echo"))
         {
             output = get_echo(*cmd_line, env);
             // write(1, output, ft_strlen(output));
         }
-        else if (!ft_strncmp(cmd, "env", 3))
+        else if (!ft_strcmp(cmd, "env"))
         {
             get_env(env);
         }
-        else if (!ft_strncmp(cmd, "exit", 4))
+        else if (!ft_strcmp(cmd, "exit"))
         {
             output = get_exit((*cmd_line) + 4);
             if (!output)

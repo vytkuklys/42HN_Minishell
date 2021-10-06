@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:59:36 by julian            #+#    #+#             */
-/*   Updated: 2021/10/05 20:16:43 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/06 11:25:30 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,15 @@ void	exit_failure(char **path, char **cmd_n)
 	free_array(cmd_n);
 }
 
-int	check_single_command(char *cmd0, char *envp[])
+int	check_builtin_command(char *cmd)
 {
-	int		i;
-	char	*cmd;
-	char	**path;
-	char	**command;
-
-	path = get_path(envp);
-	command = ft_split(cmd0, ' ');
-	i = -1;
-	while (path[++i] != NULL)
-	{
-		cmd = ft_strjoin(&path[i], command[0]);
-		if (cmd == NULL)
-			break ;
-		if (access(cmd, X_OK) != -1)
-		{
-			free(cmd);
-			return (1);
-		}
-		free(cmd);
-	}
-	free_array(path);
-	free_array(command);
-	cmd0 = ft_strtrim(cmd0, " ");
-	return (print_error_cmd(cmd0));
+	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") 
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export") 
+		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "exit"))
+		return (1);
+	else
+		return (0);
 }
 
 int	print_error_cmd(char *src)

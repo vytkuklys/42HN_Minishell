@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/05 20:07:45 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/06 10:57:13 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,6 @@ int				get_min(int a, int b);
 char			*ft_free_2d_array(char ***arr, unsigned int allocated);
 int				ft_strlen_2d(char **s);
 int				ft_strrstr(const char *big, const char *lil);
-
+int				ft_strcmp(char *s1, char *s2);
+char			**ft_split_trim(char const *s, char c, char *d);
 #endif

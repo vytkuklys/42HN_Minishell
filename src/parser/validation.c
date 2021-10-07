@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:38:51 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/03 01:37:20 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/06 17:15:07 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,22 @@ int exists_pipes(char *cmd_line)
 {
 	char	quote;
 	int		i;
+	int		pipes;
 
 	quote = '\0';
 	i = 0;
+	pipes = 0;
 	while (cmd_line[i] != '\0')
 	{
 		if (!quote && cmd_line[i] == '|' && !is_char_escaped(cmd_line, i))
-			return (1);
+			pipes++;
 		if (!quote && (cmd_line[i] == '\'' || cmd_line[i] == '"'))
 			quote = cmd_line[i];
 		else if (quote && cmd_line[i] == quote && !is_char_escaped(cmd_line, i))
 			quote = '\0';
 		i++;
 	}
-	return (0);
+	return (pipes);
 }
 
 int are_slashes_even(char *cmd_line, int i)

@@ -6,23 +6,11 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 12:37:23 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/06 11:07:45 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/07 14:44:12 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-
-/*
-** Allocates (with malloc(3)) and returns an array of strings obtained by
-** splitting ’s’ using the character ’c’ as a delimiter. The array must be
-** ended by a NULL pointer.
-** parameters:
-** s - The string to be split.
-** c - The delimiter character.
-** return value:
-** The array of new strings resulting from the split.
-** NULL if the allocation fails.
-*/
 
 static int	num_split(char const *s, char c, int i)
 {

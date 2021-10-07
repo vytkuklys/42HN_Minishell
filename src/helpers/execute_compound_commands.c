@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/06 17:00:39 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/07 17:32:08 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ void	execute_cmd(char *cmds, char *envp[])
 	exit_failure(path, cmd1);
 }
 
-static void	child_process(char **cmds, char *envp[], int fd[][2], int i, int pipes)
+static void	child_process(char **cmds, char *envp[], int fd[][2], int i, t_operators *op)
 {
 	if (i == 0)
 	{
 		if (dup2(fd[i][1], STDOUT_FILENO) < 0)
 			return (perror("CHILD_PROCESS1"));
 	}
-	else if (i == pipes)
+	else if (i == op->pipes)
 	{
 		if ((dup2(fd[i - 1][0], STDIN_FILENO) < 0))
 			return (perror("CHILD_PROCESS2"));
@@ -89,68 +89,89 @@ static void	child_process(char **cmds, char *envp[], int fd[][2], int i, int pip
 		if ((dup2(fd[i - 1][0], STDIN_FILENO) < 0)|| (dup2(fd[i][1], STDOUT_FILENO) < 0))
 			return (perror("CHILD_PROCESS3"));
 	}
-	close_fds(pipes, fd);
+	close_fds(op->pipes, fd);
 	execute_cmd(cmds[i], envp);
 }
 
-static void	pipe_fork(char **cmds, char *envp[], int pipes)
+static void	pipe_fork(char **cmds, char *envp[], t_operators *op)
 {
-	int		fd[pipes][2];
+	int		fd[op->pipes][2];
 	pid_t	pid;
 	int		i;
 
 	i = -1;
-	while (++i < pipes)
+	while (++i < op->pipes)
 		pipe(fd[i]);
 	i = -1;
-	while (++i < (pipes + 1))
+	while (++i < (op->pipes + 1))
 	{
 		pid = fork();
 		if (pid < 0)
 			return (perror("FORK"));
 		if (pid == 0)
-			child_process(cmds, envp, fd, i, pipes);
+			child_process(cmds, envp, fd, i, op);
 	}
 	i = -1;
-	while (++i < pipes)
+	while (++i < op->pipes)
 	{
 		close(fd[i][0]);
 		close(fd[i][1]);
 	}
 	i = -1;
-	while (++i < (pipes + 1))
+	while (++i < (op->pipes + 1))
 		wait(NULL);
 }
 
-static void	exec_multiple_pipes(char *cmd_line, char *envp[])
+static void	exec_multiple_pipes(char *cmd_line, char *envp[], t_operators *op)
 {
 	char	**cmds;
 	int		*check_cmd;
-	int		pipes;
 	int		i;
 	
-	pipes = 0;
-	i = -1;
-	while (cmd_line[++i] != '\0')
-		if (cmd_line[i] == '|')
-			pipes++;
 	cmds = ft_split_trim(cmd_line, '|', " ");
-	check_cmd = (int *)malloc(sizeof(int) * pipes + 1);
+	check_cmd = (int *)malloc(sizeof(int) * op->pipes + 1);
 	i = -1;
-	while (++i < pipes + 1)
+	while (++i < op->pipes + 1)
 		check_cmd[i] = check_single_command(cmds[i], envp);
 	i = -1;
-	while (++i < pipes + 1)
+	while (++i < op->pipes + 1)
 		if (check_cmd[i] == 0)
 			return ;
 	free(check_cmd);
-	pipe_fork(cmds, envp, pipes);
+	pipe_fork(cmds, envp, op);
 }
+
+// static void	exec_multiple_pipes2(char *cmd_line, char *envp[], t_operators *op)
+// {
+// 	char	**cmds;
+// 	int		*check_cmd;
+// 	int		i;
+	
+// 	cmds = ft_split_trim(cmd_line, '|', " ");
+// 	i = -1;
+// 	while (cmds[++i] != NULL)
+// 		fprintf(stderr, "cmds[%d] = %s\n", i, cmds[i]);
+// 	fprintf(stderr, "op->pipes = %d\n", op->pipes);
+// 	fprintf(stderr, "op->last_pipe = %d\n", op->last_pipe);
+// 	check_cmd = (int *)malloc(sizeof(int) * op->pipes);
+// 	i = -1;
+// 	while (++i < op->pipes)
+// 		check_cmd[i] = check_single_command(cmds[i], envp);
+// 	i = -1;
+// 	while (++i < op->pipes)
+// 		if (check_cmd[i] == 0)
+// 			return ;
+// 	free(check_cmd);
+// 	pipe_fork(cmds, envp, op->pipes);
+// }
 
 void	execute_compound_commands(t_operators *op, char *cmd_line, char *envp[])
 {
-	if (op->heredoc == 0 && op->append == 0 && op->redirect_int == 0 \
-		&& op->redirect_out == 0)
-			exec_multiple_pipes(cmd_line, envp);
+	if (op->heredoc == 0 && op->last_pipe == 0  && op->cmdor == 0 \
+		&& op->append == 0 && op->redirect_int == 0 && op->redirect_out == 0)
+			exec_multiple_pipes(cmd_line, envp, op);
+	// if (op->heredoc == 0 && op->last_pipe == 1  && op->cmdor == 0 \
+	// 	&& op->append == 0 && op->redirect_int == 0 && op->redirect_out == 0)
+	// 		exec_multiple_pipes2(cmd_line, envp, op);
 	initialize_operators(op);
 }

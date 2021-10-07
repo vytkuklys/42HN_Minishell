@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/06 12:30:29 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/07 18:21:54 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 # define PROMPT 0
 # define ERR0R_PROMPT 1
+# define TRUE 1
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -29,13 +30,15 @@
 typedef struct s_operators
 {
 	int	pipes;
+	int	last_pipe;		// | at the end of line -> pip> stdin...
+	int cmdor;			// || at the end of line -> cmdor> stdin...
 	int	heredoc;
 	int	append;
 	int redirect_int;
 	int	redirect_out;
 }			t_operators;
 
-void	print_prompt(int prompt);
+void	print_prompt(int prompt, int i);
 char	*get_echo(char *cmd_line, char **env);
 int		get_whitespace(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
@@ -53,7 +56,7 @@ int		get_end_of_str_pos(char *str);
 char	*get_exit(char *cmd_line);
 int		get_arg_len(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
-int		scan_cmd_line(t_operators *operators, char *cmd_line);
+int		check_pipes(t_operators *operators, char **cmd_line);
 void	execute_single_command(char *cmd, char *envp[]);
 void	execute_single_child(char *cmd, char *envp[]);
 int		check_single_command(char *cmd, char *envp[]);
@@ -70,5 +73,6 @@ char	*get_pwd(char *cmd_line);
 void	execute_cmd(char *cmds, char *envp[]);
 int		execute_builtin_command(char *cmd0, char *env[]);
 int		ft_pwd(void);
+char	*trim_pipes(char *src);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: julian <julian@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/06 12:29:56 by julian           ###   ########.fr        #
+#    Updated: 2021/10/07 14:43:17 by julian           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,9 @@ NAME=minishell
 FLAGS=-Werror -Wextra -Wall
 SRC= src/main.c src/helpers/printer.c src/builtins/echo.c src/parser/argv_utils.c src/helpers/free.c src/builtins/env.c \
 		src/parser/validation.c src/parser/argc.c src/helpers/counter.c src/parser/argv.c src/builtins/exit.c \
-		gnl/get_next_line.c src/helpers/scan_cmd_line.c src/helpers/execute_single_command.c \
+		gnl/get_next_line.c src/helpers/check_pipes.c src/helpers/execute_single_command.c \
 		src/helpers/execute_single_command_utils.c src/helpers/execute_compound_commands.c src/helpers/execute_compound_commands_utils.c \
-		src/builtins/pwd.c
+		src/builtins/pwd.c src/parser/trim_pipes.c
 INCLUDES=libft/libft.a
 
 all:

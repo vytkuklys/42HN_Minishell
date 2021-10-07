@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/06 17:03:00 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/07 19:11:12 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,12 @@ int process_command_line(char **cmd_line, char **env)
     char        *cmd;
     char        *output;
     t_operators operators;
-
-	if (*env == NULL)
+    
+    if (*env == NULL)
 		return (0);
     output = NULL;
     initialize_operators(&operators);
-    if (scan_cmd_line(&operators, *cmd_line) == 1)
+    if (check_pipes(&operators, cmd_line) == 1)
     {
         free(*cmd_line);
         *cmd_line = ft_calloc(1, 1);
@@ -112,35 +112,52 @@ void process_signal(int signum)
 	if (signum == SIGINT)
     {
     	write(2, "\b\b  ", 4);
-		print_prompt(ERR0R_PROMPT);
+		print_prompt(ERR0R_PROMPT, -1);
     }
 }
 
-int main(int argc, char **argv, char **env)
+char    *get_cmd_line(void)
 {
-    int bytes;
-    char buff[2];
-    char *cmd_line;
+    int     bytes;
+    char    buff[2];
+    char    *cmd_line;
 
     bytes = 1;
-	if (argc == 0 && argv == NULL)
-		argc = 0;
-    signal(SIGINT, process_signal);
-    signal(SIGQUIT, process_signal);
-	print_prompt(PROMPT);
-	cmd_line = ft_calloc(1, 1);
-    while(bytes > 0)
+    cmd_line = ft_calloc(1, 1);
+    while (bytes > 0)
     {
         bytes = read(1, &buff, 1);
         buff[bytes] = '\0';
         if (buff[0] == '\n')
-        {
-            if (!process_command_line(&cmd_line, env))
-                break ;
-            print_prompt(PROMPT);
-        }
+            break ;
         else
             cmd_line = ft_strjoin(&cmd_line, buff);
+    }
+    return (cmd_line);
+}
+
+int main(int argc, char **argv, char **env)
+{
+    char    *cmd_line;
+    int     i;
+
+	if (argc == 0 && argv == NULL)
+		argc = 0;
+    signal(SIGINT, process_signal);
+    signal(SIGQUIT, process_signal);
+	print_prompt(PROMPT, -1);
+    i = 0;
+    while (TRUE)
+    {
+        cmd_line = get_cmd_line();
+        while (cmd_line[ft_strlen(cmd_line) - 1] == '|')
+        {
+            print_prompt(2, i++);
+            cmd_line = ft_strjoin(&cmd_line, get_cmd_line());
+        }
+        if (!process_command_line(&cmd_line, env))
+            break ;
+        print_prompt(PROMPT, -1);
     }
     free_str(&cmd_line);
     return (0);

@@ -6,11 +6,32 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 00:01:03 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 00:02:29 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/08 01:12:40 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int print_export_error(char *arg, int *flag, char *error)
+{
+	int	i;
+
+	if (arg == NULL || error == NULL)
+		return (0);
+	i = 0;
+	if (*flag == 0)
+	{
+		write(1, error, ft_strlen(error));
+		while (arg[i] != '\0' && arg[i] != '=')
+		{
+			write(1, &arg[i], 1);
+			i++;		
+		}
+		write(1, "\n", 2);
+		(*flag)++;
+	}
+	return (0);
+}
 
 void print_prompt(int prompt)
 {

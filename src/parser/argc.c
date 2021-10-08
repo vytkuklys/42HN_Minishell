@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 18:23:17 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/02 20:33:55 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/08 00:30:33 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,13 @@ int get_argc(char *cmd_line)
 	int	argc;
 	int counted;
 	int	i;
+	int quote;
 
 	if (!are_quotes_valid(cmd_line) || !are_slashes_valid(cmd_line))
 		return (-1);
 	argc = 0;
 	counted = 0;
+	quote = 0;
 	i = 0;
 	while (cmd_line[i] != '\0' && cmd_line[i] != '|' && cmd_line[i] != ';')
 	{
@@ -41,15 +43,18 @@ int get_argc(char *cmd_line)
 			counted = 1;
 			argc++;
 		}
+		else if (ft_strchr("'\"", cmd_line[i]) && counted)
+		{
+			if (is_char_escaped(cmd_line, i) && are_slashes_even(cmd_line, i))
+				i += get_end_of_quote_pos(&cmd_line[i]);
+		}
 		i++;
 	}
 	return (argc);
 }
 
-// int main(int argc, char **argv)
+// int main(void)
 // {
-//     printf("%d", get_argc("\\\" 123 123 123\"123\" ''''2 \"123123\""));
-//     if (argv == NULL)
-//         return (1);
-//     return (0);
+// 	get_argc("\\\"");
+// 	return 0;
 // }

@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:58:36 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/03 23:00:31 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/08 00:11:46 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,39 @@ int get_arg_len(char *cmd_line)
 		if (ft_strchr("'\"", cmd_line[i]))
 			len += get_end_of_quote_pos(&cmd_line[i]) + 1;
 		else
-			len += get_end_of_str_pos(&cmd_line[i]);
+			len += get_end_of_arg_pos(&cmd_line[i]);
 		i += len;
 	}
 	return (len);
 }
 
-int add_char_to_text(char **str, char *cmd_line, int *j)
+int add_char_to_text(char **str, char *cmd_line, int *j, int i)
 {
-	int i;
+	int whitespace;
 
-	i = 0;
+	whitespace = 0;
 	if (cmd_line && cmd_line[i] == '\\')
 		return (add_slashes(str, &cmd_line[i], j) - 1);
 	if (cmd_line && cmd_line[i] == ' ')
 	{
 		(*str)[*j] = cmd_line[i];
-		i += get_whitespace(cmd_line + i + 1);
+		whitespace += get_whitespace(cmd_line + i + 1);
 		(*j)++;
-	}
+	}	
 	else if (cmd_line && cmd_line[i])
 	{
-		(*str)[*j] = cmd_line[i];
-		(*j)++;
+		if (cmd_line[i] != '"' && cmd_line[i] != '\'')
+		{
+			(*str)[*j] = cmd_line[i];
+			(*j)++;
+		}
+		else if (is_char_escaped(cmd_line, i) && !are_slashes_even(cmd_line, i))
+		{
+			(*str)[*j] = cmd_line[i];
+			(*j)++;
+		}
 	}
-	return (i);
+	return (whitespace);
 }
 
 char	get_whitespace_char(char c, int slashes)

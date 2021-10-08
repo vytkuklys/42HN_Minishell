@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:58:37 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/28 23:58:56 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/07 04:35:12 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int ft_strlen_2d(char **s)
 {
 	int len;
 
-	len = ft_strlen((char *)s);
+	len = 0;
+	while (s[len] != NULL)
+		len++;
 	return (len);
 }

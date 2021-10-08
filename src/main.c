@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/04 00:46:38 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/08 03:44:24 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,12 @@ char	*get_pwd(char *cmd_line)
     return (output);
 }
 
-int process_command_line(char **cmd_line, char **env)
+int process_command_line(char **cmd_line, t_var **data)
 {
     char *cmd;
     char *output;
 
-	if (*env == NULL)
+	if ((*data)->env == NULL)
 		return (0);
     output = NULL;
     cmd = get_command(*cmd_line);
@@ -59,12 +59,11 @@ int process_command_line(char **cmd_line, char **env)
 	}
 	else if (!ft_strncmp(cmd, "echo", 4))
 	{
-		output = get_echo(*cmd_line, env);
-        // write(1, output, ft_strlen(output));
+		output = get_echo(*cmd_line, (*data)->env);
 	}
 	else if (!ft_strncmp(cmd, "env", 3))
     {
-		get_env(env);
+		get_env((*data)->env);
     }
     else if (!ft_strncmp(cmd, "exit", 4))
     {
@@ -72,6 +71,18 @@ int process_command_line(char **cmd_line, char **env)
         if (!output)
             return (0);
         write(1, output, ft_strlen(output));
+    }
+    else if (!ft_strncmp(cmd, "export", 6))
+    {
+        ft_export(*cmd_line, data);
+    }
+    else if (!ft_strncmp(cmd, "unset", 5))
+    {
+        ft_unset(*cmd_line, data);
+    }
+    else if (ft_strchr(cmd, '='))
+    {
+        set_variables(*cmd_line, data);
     }
 	else if (cmd[0] != '\0')
 	{
@@ -100,7 +111,11 @@ int main(int argc, char **argv, char **env)
     int bytes;
     char buff[2];
     char *cmd_line;
+    t_var   *data;
 
+    data = (t_var *)malloc(sizeof(t_var));
+	if (!data)
+		return (-1);
     bytes = 1;
 	if (argc == 0 && argv == NULL)
 		argc = 0;
@@ -108,13 +123,14 @@ int main(int argc, char **argv, char **env)
     signal(SIGQUIT, process_signal);
 	print_prompt(PROMPT);
 	cmd_line = ft_calloc(1, 1);
-    while(bytes > 0)
+    init_data(env, &data);
+    while (bytes > 0)
     {
         bytes = read(1, &buff, 1);
         buff[bytes] = '\0';
         if (buff[0] == '\n')
         {
-            if (!process_command_line(&cmd_line, env))
+            if (!process_command_line(&cmd_line, &data))
                 break ;
             print_prompt(PROMPT);
         }
@@ -124,39 +140,3 @@ int main(int argc, char **argv, char **env)
     free_str(&cmd_line);
     return (0);
 }
-
-    // ---cd (should work when program is being executed ~ )
-    // chdir("..");
-
-    //--ctrl_c intercept
-    // -- redirection > 
-    // int fd = open("text.txt", O_WRONLY | O_CREAT, 0777);
-    // dup2(fd, STDOUT_FILENO);
-    // close(fd);
-    // printf("Experimentation::Notation::Ideation");
-
-    //-- redirection >>
-    // int fd = open("text.txt", O_WRONLY | O_APPEND | O_CREAT, 0777);
-    
-    //-- check if file is accesible
-    // int a = access("text.txt", F_OK);
-
-    //-- check the dir that program is started from
-    // char cwd[100];
-    // getcwd(cwd, sizeof(cwd));
-    // printf("%s", cwd);
-
-    // while(1)
-    //     pause();
-
-    //test
-
-// int main(int argc, char **argv, char **env)
-// {
-//     if (argc == 0 || argv == NULL || env == NULL)
-//         return 1;
-    
-//     execve("/bin/echo", argv, env);
-//     // write(1, "1", 1);
-//     return (0);
-// }

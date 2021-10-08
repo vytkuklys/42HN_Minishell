@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:02:31 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/04 02:56:26 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/08 03:58:25 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,17 +58,14 @@ int	execute_echo(char **argv, char **env)
 char    *get_echo(char *cmd_line, char **env)
 {
 	char	**argv;
-	int		argc;
 
-	argc = get_argc(cmd_line);
-	if (argc == -1)
-		return ("minishell: invalid command line arguments \n");
-	argv = (char **)malloc((argc + 1) * sizeof(char *));
+	argv = get_variables(cmd_line);
+	if (argv == NULL)
+		return (NULL);
 	get_argv(cmd_line, argv);
 	execute_echo(argv, env);
 	if (!access("result.txt", R_OK))
 		print_echo(open("result.txt", O_RDONLY));
-	else
-		fprintf(stderr, "%s", "2");
+	free_2d_array(&argv);
 	return (NULL);
 }

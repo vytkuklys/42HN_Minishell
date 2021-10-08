@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:43:29 by julian            #+#    #+#             */
-/*   Updated: 2021/10/06 11:25:13 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 14:02:08 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	check_single_command(char *cmd0, char *envp[])
 	char	**path;
 	char	**command;
 
-	if (check_builtin_command(cmd0) == 1)
+	if (check_builtin_command(cmd0))
 		return (1);
 	path = get_path(envp);
 	command = ft_split(cmd0, ' ');

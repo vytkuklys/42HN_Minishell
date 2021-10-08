@@ -6,27 +6,27 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 19:11:12 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 15:59:21 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_command(char *cmd_line)
+char	*get_command(char *cmd_line)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    if (cmd_line == NULL)
-        return NULL;
-    while (cmd_line[i] != ' ' && cmd_line[i] != '\0')
-        i++;
-    return ft_substr(cmd_line, 0, i);
+	i = 0;
+	if (cmd_line == NULL)
+		return NULL;
+	while (cmd_line[i] != ' ' && cmd_line[i] != '\0')
+		i++;
+	return ft_substr(cmd_line, 0, i);
 }
 
 char	*get_pwd(char *cmd_line)
 {
-    char	*output;
+	char	*output;
 	int		i;
 
 	if (cmd_line == NULL) //add clean exit
@@ -35,132 +35,158 @@ char	*get_pwd(char *cmd_line)
 	while (cmd_line[i] != '\0')
 	{
 		if (cmd_line[i] != ' ')
-        	return ("pwd: too many arguments");
+			return ("pwd: too many arguments");
 		i++;
 	}
-    output = getenv("PWD");
-    return (output);
+	output = getenv("PWD");
+	return (output);
 }
 
-int process_command_line(char **cmd_line, char **env)
+int	process_command_line(char **cmd_line, char **env)
 {
-    char        *cmd;
-    char        *output;
-    t_operators operators;
-    
-    if (*env == NULL)
+	char		*cmd;
+	char		*output;
+	t_operators	op;
+
+	if (*env == NULL)
 		return (0);
-    output = NULL;
-    initialize_operators(&operators);
-    if (check_pipes(&operators, cmd_line) == 1)
-    {
-        free(*cmd_line);
-        *cmd_line = ft_calloc(1, 1);
-	    if (*cmd_line == NULL) //add clean exit
-		    return (0);
-        return (1);
-    }
-    if (operators.pipes == 0) // single command
-    {
-        *cmd_line = ft_strtrim(*cmd_line, " ");
-        cmd = get_command(*cmd_line);
-        if (!ft_strcmp(cmd, "pwd"))
-        {
-            output = get_pwd((*cmd_line) + 3);
-            write(1, output, ft_strlen(output));
-            write(1, "\n", 1);
-        }
-        else if (!ft_strcmp(cmd, "echo"))
-        {
-            output = get_echo(*cmd_line, env);
-            // write(1, output, ft_strlen(output));
-        }
-        else if (!ft_strcmp(cmd, "env"))
-        {
-            get_env(env);
-        }
-        else if (!ft_strcmp(cmd, "exit"))
-        {
-            output = get_exit((*cmd_line) + 4);
-            if (!output)
-                return (0);
-            write(1, output, ft_strlen(output));
-        }
-        else if (cmd[0] != '\0')
-            execute_single_command(*cmd_line, env);
-        free(*cmd_line);
-        *cmd_line = ft_calloc(1, 1);
-        if (*cmd_line == NULL) //add clean exit
-            return (0);
-        return (1);
-    }
-    else if (operators.pipes > 0)
-    {
-        execute_compound_commands(&operators, *cmd_line, env);
-        free(*cmd_line);
-        *cmd_line = ft_calloc(1, 1);
-        if (*cmd_line == NULL) //add clean exit
-            return (0);
-        return (1);
-    }
-    else
-        return (1); // compound commants -> ToDo
+	output = NULL;
+	initialize_operators(&op);
+	op.pipes = exists_pipes(*cmd_line);
+	// if (check_pipes(&operators, cmd_line) == 1)
+	// {
+	// 	free(*cmd_line);
+	// 	*cmd_line = ft_calloc(1, 1);
+	// 	if (*cmd_line == NULL) //add clean exit
+	// 		return (0);
+	// 	return (1);
+	// }
+	if (op.pipes == 0) // single command
+	{
+		*cmd_line = ft_strtrim(*cmd_line, " ");
+		cmd = get_command(*cmd_line);
+		if (!ft_strcmp(cmd, "pwd"))
+		{
+			output = get_pwd((*cmd_line) + 3);
+			write(1, output, ft_strlen(output));
+			write(1, "\n", 1);
+		}
+		else if (!ft_strcmp(cmd, "echo"))
+		{
+			output = get_echo(*cmd_line, env);
+			// write(1, output, ft_strlen(output));
+		}
+		else if (!ft_strcmp(cmd, "env"))
+		{
+			get_env(env);
+		}
+		else if (!ft_strcmp(cmd, "exit"))
+		{
+			output = get_exit((*cmd_line) + 4);
+			if (!output)
+				return (0);
+			write(1, output, ft_strlen(output));
+		}
+		else if (cmd[0] != '\0')
+			execute_single_command(*cmd_line, env);
+		free(*cmd_line);
+		*cmd_line = ft_calloc(1, 1);
+		if (*cmd_line == NULL) //add clean exit
+			return (0);
+		return (1);
+	}
+	else if (op.pipes > 0)
+	{
+		execute_compound_commands(&op, *cmd_line, env);
+		free(*cmd_line);
+		*cmd_line = ft_calloc(1, 1);
+		if (*cmd_line == NULL) //add clean exit
+			return (0);
+		return (1);
+	}
+	else
+		return (1); // compound commants -> ToDo
 }
 
-void process_signal(int signum)
+void	process_signal(int signum)
 {
 	if (signum == SIGINT)
-    {
-    	write(2, "\b\b  ", 4);
+	{
+		write(2, "\b\b  ", 4);
 		print_prompt(ERR0R_PROMPT, -1);
-    }
+	}
 }
 
-char    *get_cmd_line(void)
+char	*get_cmd_line(int *bytes)
 {
-    int     bytes;
-    char    buff[2];
-    char    *cmd_line;
+	char	buff[2];
+	char	*cmd_line;
 
-    bytes = 1;
-    cmd_line = ft_calloc(1, 1);
-    while (bytes > 0)
-    {
-        bytes = read(1, &buff, 1);
-        buff[bytes] = '\0';
-        if (buff[0] == '\n')
-            break ;
-        else
-            cmd_line = ft_strjoin(&cmd_line, buff);
-    }
-    return (cmd_line);
+	cmd_line = ft_calloc(1, 1);
+	while (*bytes > 0)
+	{
+		(*bytes) = read(1, &buff, 1);
+		buff[*bytes] = '\0';
+		if (buff[0] == '\n')
+			break ;
+		else
+			cmd_line = ft_strjoin(&cmd_line, buff);
+	}
+	return (ft_strtrim(cmd_line, " "));
 }
 
 int main(int argc, char **argv, char **env)
 {
-    char    *cmd_line;
-    int     i;
+	char	*cmd_line;
+	char	*tmp;
+	int		error;
+	int		i;
+	int		bytes;
 
 	if (argc == 0 && argv == NULL)
 		argc = 0;
-    signal(SIGINT, process_signal);
-    signal(SIGQUIT, process_signal);
+	signal(SIGINT, process_signal);
+	signal(SIGQUIT, process_signal);
 	print_prompt(PROMPT, -1);
-    i = 0;
-    while (TRUE)
-    {
-        cmd_line = get_cmd_line();
-        while (cmd_line[ft_strlen(cmd_line) - 1] == '|')
-        {
-            print_prompt(2, i++);
-            cmd_line = ft_strjoin(&cmd_line, get_cmd_line());
-        }
-        if (!process_command_line(&cmd_line, env))
-            break ;
-        print_prompt(PROMPT, -1);
-    }
-    free_str(&cmd_line);
-    return (0);
+	i = 0;
+	bytes = 1;
+	while (bytes > 0)
+	{
+		error = 0;
+		i = 0;
+		cmd_line = get_cmd_line(&bytes);
+		while (cmd_line[ft_strlen(cmd_line) - 1] == '|')
+		{
+			if (cmd_line[ft_strlen(cmd_line) - 2] == '\\')
+				break;
+			if (check_pipes(&cmd_line))
+			{
+				error = 1;
+				break ;
+			}
+			print_prompt(2, i++);
+			tmp = get_cmd_line(&bytes);
+			if (check_pipes(&tmp))
+			{
+				error = 1;
+				break ;
+			}
+			if (!check_single_command(tmp, env))
+			{
+				free(tmp);
+				error = 1;
+				break ;
+			}
+			cmd_line = ft_strjoin(&cmd_line, tmp);
+		}
+		if (error == 0)
+			if (!process_command_line(&cmd_line, env))
+				break ;
+		if (bytes > 0)
+			print_prompt(PROMPT, -1);
+	}
+	free_str(&cmd_line);
+	return (0);
 }
 
     // ---cd (should work when program is being executed ~ )

@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 18:21:54 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 15:49:24 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int		get_end_of_str_pos(char *str);
 char	*get_exit(char *cmd_line);
 int		get_arg_len(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
-int		check_pipes(t_operators *operators, char **cmd_line);
+int		check_pipes(char **cmd_line);
 void	execute_single_command(char *cmd, char *envp[]);
 void	execute_single_child(char *cmd, char *envp[]);
 int		check_single_command(char *cmd, char *envp[]);
@@ -74,5 +74,6 @@ void	execute_cmd(char *cmds, char *envp[]);
 int		execute_builtin_command(char *cmd0, char *env[]);
 int		ft_pwd(void);
 char	*trim_pipes(char *src);
+char	**ft_split_trim2(char const *s, char c, char *d);
 
 #endif

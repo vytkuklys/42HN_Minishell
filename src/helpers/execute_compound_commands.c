@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/07 17:32:08 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 16:01:37 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,11 @@ static void	exec_multiple_pipes(char *cmd_line, char *envp[], t_operators *op)
 	int		*check_cmd;
 	int		i;
 	
-	cmds = ft_split_trim(cmd_line, '|', " ");
+	fprintf(stderr, "cmd_line0 = %s\n", cmd_line);
+	cmds = ft_split_pipe(cmd_line, '|', " ");
+	i = -1;
+	while (cmds[++i] != NULL)
+		fprintf(stderr, "cmds[%d] = %s\n", i, cmds[i]);
 	check_cmd = (int *)malloc(sizeof(int) * op->pipes + 1);
 	i = -1;
 	while (++i < op->pipes + 1)
@@ -140,30 +144,6 @@ static void	exec_multiple_pipes(char *cmd_line, char *envp[], t_operators *op)
 	free(check_cmd);
 	pipe_fork(cmds, envp, op);
 }
-
-// static void	exec_multiple_pipes2(char *cmd_line, char *envp[], t_operators *op)
-// {
-// 	char	**cmds;
-// 	int		*check_cmd;
-// 	int		i;
-	
-// 	cmds = ft_split_trim(cmd_line, '|', " ");
-// 	i = -1;
-// 	while (cmds[++i] != NULL)
-// 		fprintf(stderr, "cmds[%d] = %s\n", i, cmds[i]);
-// 	fprintf(stderr, "op->pipes = %d\n", op->pipes);
-// 	fprintf(stderr, "op->last_pipe = %d\n", op->last_pipe);
-// 	check_cmd = (int *)malloc(sizeof(int) * op->pipes);
-// 	i = -1;
-// 	while (++i < op->pipes)
-// 		check_cmd[i] = check_single_command(cmds[i], envp);
-// 	i = -1;
-// 	while (++i < op->pipes)
-// 		if (check_cmd[i] == 0)
-// 			return ;
-// 	free(check_cmd);
-// 	pipe_fork(cmds, envp, op->pipes);
-// }
 
 void	execute_compound_commands(t_operators *op, char *cmd_line, char *envp[])
 {

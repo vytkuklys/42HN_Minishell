@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 14:44:33 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 13:18:35 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,4 +94,5 @@ int				ft_strlen_2d(char **s);
 int				ft_strrstr(const char *big, const char *lil);
 int				ft_strcmp(char *s1, char *s2);
 char			**ft_split_trim(char const *s, char c, char *d);
+char			**ft_split_pipe(char *s, char c, char *d);
 #endif

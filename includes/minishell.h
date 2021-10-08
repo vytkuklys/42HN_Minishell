@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 15:49:24 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 17:24:00 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,6 @@
 typedef struct s_operators
 {
 	int	pipes;
-	int	last_pipe;		// | at the end of line -> pip> stdin...
-	int cmdor;			// || at the end of line -> cmdor> stdin...
 	int	heredoc;
 	int	append;
 	int redirect_int;

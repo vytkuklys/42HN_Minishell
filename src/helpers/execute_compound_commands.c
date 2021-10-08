@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/08 16:01:37 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 17:24:57 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,8 @@ static void	exec_multiple_pipes(char *cmd_line, char *envp[], t_operators *op)
 	char	**cmds;
 	int		*check_cmd;
 	int		i;
-	
-	fprintf(stderr, "cmd_line0 = %s\n", cmd_line);
+
 	cmds = ft_split_pipe(cmd_line, '|', " ");
-	i = -1;
-	while (cmds[++i] != NULL)
-		fprintf(stderr, "cmds[%d] = %s\n", i, cmds[i]);
 	check_cmd = (int *)malloc(sizeof(int) * op->pipes + 1);
 	i = -1;
 	while (++i < op->pipes + 1)
@@ -147,8 +143,8 @@ static void	exec_multiple_pipes(char *cmd_line, char *envp[], t_operators *op)
 
 void	execute_compound_commands(t_operators *op, char *cmd_line, char *envp[])
 {
-	if (op->heredoc == 0 && op->last_pipe == 0  && op->cmdor == 0 \
-		&& op->append == 0 && op->redirect_int == 0 && op->redirect_out == 0)
+	if (op->heredoc == 0 && op->append == 0 
+		&& op->redirect_int == 0 && op->redirect_out == 0)
 			exec_multiple_pipes(cmd_line, envp, op);
 	// if (op->heredoc == 0 && op->last_pipe == 1  && op->cmdor == 0 \
 	// 	&& op->append == 0 && op->redirect_int == 0 && op->redirect_out == 0)

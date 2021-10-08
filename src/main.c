@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 16:33:09 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 17:21:21 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ int	process_command_line(char **cmd_line, char **env)
 	output = NULL;
 	initialize_operators(&op);
 	op.pipes = exists_pipes(*cmd_line);
-	// if (check_pipes(&operators, cmd_line) == 1)
-	// {
-	// 	free(*cmd_line);
-	// 	*cmd_line = ft_calloc(1, 1);
-	// 	if (*cmd_line == NULL) //add clean exit
-	// 		return (0);
-	// 	return (1);
-	// }
 	if (op.pipes == 0) // single command
 	{
 		*cmd_line = ft_strtrim(*cmd_line, " ");
@@ -72,10 +64,7 @@ int	process_command_line(char **cmd_line, char **env)
 			write(1, "\n", 1);
 		}
 		else if (!ft_strcmp(cmd, "echo"))
-		{
 			output = get_echo(*cmd_line, env);
-			// write(1, output, ft_strlen(output));
-		}
 		else if (!ft_strcmp(cmd, "env"))
 		{
 			get_env(env);
@@ -157,13 +146,13 @@ int main(int argc, char **argv, char **env)
 		cmd_line = get_cmd_line(&bytes);
 		while (cmd_line[ft_strlen(cmd_line) - 1] == '|')
 		{
-			if (cmd_line[ft_strlen(cmd_line) - 2] == '\\')
-				break;
 			if (check_pipes(&cmd_line))
 			{
 				error = 1;
 				break ;
 			}
+			if (cmd_line[ft_strlen(cmd_line) - 2] == '\\')
+				break;
 			print_prompt(2, i++);
 			tmp = get_cmd_line(&bytes);
 			if (check_pipes(&tmp))

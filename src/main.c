@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 15:59:21 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/08 16:29:46 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ int main(int argc, char **argv, char **env)
 	int		error;
 	int		i;
 	int		bytes;
+	//comment
 
 	if (argc == 0 && argv == NULL)
 		argc = 0;

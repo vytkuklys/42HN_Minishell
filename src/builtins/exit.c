@@ -1,23 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2d_strlen.c                                     :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/28 23:58:37 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:35:12 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/10/01 18:18:45 by vkuklys           #+#    #+#             */
+/*   Updated: 2021/10/03 00:10:11 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int ft_strlen_2d(char **s)
+char	*get_exit(char *cmd_line)
 {
-	int len;
+	int	argc;
 
-	len = 0;
-	while (s[len] != NULL)
-		len++;
-	return (len);
+	if (exists_pipes(cmd_line))
+		return ("exit: too many arguments\n");
+	argc = get_argc(cmd_line);
+	if (argc == -1)
+		return ("minishell: invalid arguments\n");
+	if (argc > 1)
+		return ("exit: too many arguments\n");
+	return (NULL);
 }

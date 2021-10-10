@@ -6,74 +6,65 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:02:31 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 02:34:56 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 01:04:26 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_index_of_first_quote(char *cmd_line)
+int	print_echo(int fd)
 {
-    int i;
+	char	*buff;
 
-    if (cmd_line == NULL) //add clean exit
-        return (NULL);
-    i = 0;
-    while (cmd_line[i] != '\0' && cmd_line[i] != '\'' && cmd_line[i] != '\"')
-        i++;
-    if (cmd_line[i] != '\0')
-        return (i);
-    return (-1);
+	if (fd == -1)
+		return (-1);
+	buff = NULL;
+	while (1)
+	{
+		free(buff);
+		buff = NULL;
+		buff = get_next_line(fd);
+		if (buff != NULL)
+			write(1, buff, ft_strlen(buff));
+		else
+			break ;
+	}
+	return (0);
 }
 
-int get_whitespace_count(char *cmd_line)
+int	execute_echo(char **argv, char **env)
 {
-	int space;
+	int	id;
+	int	result;
 
-	while (*cmd_line && ft_strchr(" \t\v\f\r\b", *cmd_line))
-		space++;
-	return (space);
+	id = fork();
+	if (id == -1)
+		return (-1);
+	if (id == 0)
+	{
+		result = open("result.txt", O_CREAT | O_WRONLY | O_TRUNC,
+				S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH);
+		if (result == -1)
+			return (-1);
+		dup2(result, STDOUT_FILENO);
+		close(result);
+		execve("/bin/echo", argv, env);
+		return (-1);
+	}
+	waitpid(id, NULL, 0);
+	return (0);
 }
 
-/*slash is jumped over and*/
-char *get_echo_beginning(char *cmd_line)
+char	*get_echo(char *cmd_line, t_var **data)
 {
-    char *str;
-    int i;
-    int j;
+	char	**argv;
 
-    str = ft_calloc(ft_strlen(cmd_line), 1);
-    if (str == NULL) //add clean exit
-        return (NULL);
-    i = 0;
-    j = 0;
-    while (cmd_line[i] != '\0' && !ft_strchr("\"';|", cmd_line[i]))
-    {
-        if (cmd_line[i] == '\\')
-        {
-            i++;
-			if (cmd_line[i] != '\0')
-			{
-				str[j] = cmd_line[i];
-				j++;
-			}
-        }
-		i++;
-    }
-}
-
-char    *get_echo(char *cmd_line, char *cmd)
-{
-	char	*output;
-	int		quote;
-	int		i;
-
-    // output = ft_calloc(1, 1);
-    if (output == NULL) //add clean exit
-        return (NULL);
-	i = 0;
-	quote = get_index_of_first_quote(cmd_line[i]);
-    if (quote > 0 && cmd_line[quote - 1] == '\\')
-        output = get_echo_beginning(cmd_line);
-	return (output);
+	argv = get_variables(cmd_line, data);
+	if (argv == NULL)
+		return (NULL);
+	execute_echo(argv, (*data)->env);
+	if (!access("result.txt", R_OK))
+		print_echo(open("result.txt", O_RDONLY));
+	free_2d_array(&argv);
+	return (NULL);
 }

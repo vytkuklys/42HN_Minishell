@@ -1,23 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2d_strlen.c                                     :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/28 23:58:37 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:35:12 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/09/30 22:55:45 by vkuklys           #+#    #+#             */
+/*   Updated: 2021/10/10 00:57:27 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int ft_strlen_2d(char **s)
+void	free_2d_array(char ***arr)
 {
-	int len;
+	int		i;
+	char	**tmp;
 
-	len = 0;
-	while (s[len] != NULL)
-		len++;
-	return (len);
+	tmp = *arr;
+	if (tmp == NULL)
+		return ;
+	i = 0;
+	while (tmp != NULL && tmp[i] != NULL)
+	{
+		free(tmp[i]);
+		tmp[i] = NULL;
+		i++;
+	}
+	free(tmp);
+	*arr = NULL;
+}
+
+char	*free_str(char **str)
+{
+	if (*str == NULL)
+		return (NULL);
+	free(*str);
+	*str = NULL;
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:27:26 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/07/20 16:03:29 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/07 04:27:32 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static long long
 }
 
 int
-	ft_get_digit_count(long long n)
+	ft_get_digit_counts(long long n)
 {
 	int	digits;
 
@@ -58,8 +58,8 @@ static int
 	int	reverseDigits;
 	int	nDigits;
 
-	reverseDigits = ft_get_digit_count(reverse);
-	nDigits = ft_get_digit_count(n);
+	reverseDigits = ft_get_digit_counts(reverse);
+	nDigits = ft_get_digit_counts(n);
 	if (n < 0)
 		nDigits--;
 	if (n == 0)
@@ -77,7 +77,7 @@ char
 
 	reverse = ft_get_reverse_num(n);
 	zeros = ft_get_zeros(n, reverse);
-	dup = (char *)malloc(ft_get_digit_count(n) * sizeof(char) + 1);
+	dup = (char *)malloc(ft_get_digit_counts(n) * sizeof(char) + 1);
 	if (dup == 0)
 		return (0);
 	dup_copy = dup;

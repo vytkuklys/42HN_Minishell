@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2d_strlen.c                                     :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/28 23:58:37 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:35:12 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/09/30 09:21:19 by jludt             #+#    #+#             */
+/*   Updated: 2021/10/07 04:18:59 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int ft_strlen_2d(char **s)
+void	get_env(char *envp[])
 {
-	int len;
+	int	i;
 
-	len = 0;
-	while (s[len] != NULL)
-		len++;
-	return (len);
+	i = 0;
+	while (envp && envp[i] != NULL)
+		printf("%s\n", envp[i++]);
 }

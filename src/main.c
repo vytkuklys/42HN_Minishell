@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/29 02:35:07 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/09 00:51:08 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,48 @@ char	*get_pwd(char *cmd_line)
     return (output);
 }
 
-void process_command_line(char **cmd_line, char **env)
+int process_command_line(char **cmd_line, t_var **data)
 {
     char *cmd;
     char *output;
 
-	if (env == NULL)
-		return ;
+	if ((*data)->env == NULL)
+		return (0);
     output = NULL;
     cmd = get_command(*cmd_line);
     if (!ft_strncmp(cmd, "pwd", 3))
 	{
-        output = get_pwd(*cmd_line + 4);
+        output = get_pwd((*cmd_line) + 3);
     	write(1, output, ft_strlen(output));
 		write(1, "\n", 1);
 	}
-	// else if (!ft_strncmp(cmd, "echo", 4))
-	// {
-	// 	output = get_echo(*cmd_line + 5, cmd);
-	// }
+	else if (!ft_strncmp(cmd, "echo", 4))
+	{
+		output = get_echo(*cmd_line, data);
+	}
+	else if (!ft_strncmp(cmd, "env", 3))
+    {
+		get_env((*data)->env);
+    }
+    else if (!ft_strncmp(cmd, "exit", 4))
+    {
+        output = get_exit((*cmd_line) + 4);
+        if (!output)
+            return (0);
+        write(1, output, ft_strlen(output));
+    }
+    else if (!ft_strncmp(cmd, "export", 6))
+    {
+        ft_export(*cmd_line, data);
+    }
+    else if (!ft_strncmp(cmd, "unset", 5))
+    {
+        ft_unset(*cmd_line, data);
+    }
+    // else if (ft_strchr(cmd, '='))
+    // {
+    //     // set_variables(*cmd_line, data);
+    // }
 	else if (cmd[0] != '\0')
 	{
 		write(1, "minishell: command not found: ", 31);
@@ -70,69 +93,50 @@ void process_command_line(char **cmd_line, char **env)
     free(*cmd_line);
     *cmd_line = ft_calloc(1, 1);
 	if (*cmd_line == NULL) //add clean exit
-		return ;
+		return (0);
+    return (1);
 }
 
 void process_signal(int signum)
 {
-	write(2, "\b\b  ", 4);
 	if (signum == SIGINT)
+    {
+    	write(2, "\b\b", 2);
 		print_prompt(ERR0R_PROMPT);
+    }
 }
-
 
 int main(int argc, char **argv, char **env)
 {
     int bytes;
     char buff[2];
     char *cmd_line;
+    t_var   *data;
 
+    data = (t_var *)malloc(sizeof(t_var));
+	if (!data)
+		return (-1);
     bytes = 1;
 	if (argc == 0 && argv == NULL)
 		argc = 0;
     signal(SIGINT, process_signal);
+    signal(SIGQUIT, process_signal);
 	print_prompt(PROMPT);
 	cmd_line = ft_calloc(1, 1);
-    while(bytes > 0)
+    init_data(env, &data);
+    while (bytes > 0)
     {
         bytes = read(1, &buff, 1);
         buff[bytes] = '\0';
         if (buff[0] == '\n')
         {
-            process_command_line(&cmd_line, env);
+            if (!process_command_line(&cmd_line, &data))
+                break ;
             print_prompt(PROMPT);
         }
         else
             cmd_line = ft_strjoin(&cmd_line, buff);
     }
+    free_str(&cmd_line);
     return (0);
 }
-
-	//---env
-    // char *arg[] = {"/usr/bin/env", NULL};
-    // char cmd[] = "/usr/bin/env";
-    // execve(cmd, arg, env);
-
-    // ---cd (should work when program is being executed ~ )
-    // chdir("..");
-
-    //--ctrl_c intercept
-    // -- redirection > 
-    // int fd = open("text.txt", O_WRONLY | O_CREAT, 0777);
-    // dup2(fd, STDOUT_FILENO);
-    // close(fd);
-    // printf("Experimentation::Notation::Ideation");
-
-    //-- redirection >>
-    // int fd = open("text.txt", O_WRONLY | O_APPEND | O_CREAT, 0777);
-    
-    //-- check if file is accesible
-    // int a = access("text.txt", F_OK);
-
-    //-- check the dir that program is started from
-    // char cwd[100];
-    // getcwd(cwd, sizeof(cwd));
-    // printf("%s", cwd);
-
-    // while(1)
-    //     pause();

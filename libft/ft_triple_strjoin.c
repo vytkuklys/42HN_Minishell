@@ -1,43 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strjoin.c                                       :+:      :+:    :+:   */
+/*   ft_triple_strjoin.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/14 12:28:53 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 02:46:45 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/10/10 00:29:21 by vkuklys           #+#    #+#             */
+/*   Updated: 2021/10/10 00:30:09 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
 char
-	*ft_strjoin(char **s1, const char *s2)
+	*ft_triple_strjoin(char **s1, char const *s2, char const *s3, int len_s1)
 {
-	int			i;
-	char		*dup;
-	char		*dup_copy;
+	size_t	len_s2;
+	size_t	len_s3;
+	char	*p;
 
-	if (s1 == NULL || s2 == NULL)
+	if (!s1 || !s2 || !s3)
 		return (NULL);
-	i = 0;
-	dup = (char *)malloc((ft_strlen(*s1) + ft_strlen(s2)) * sizeof(char) + 1);
-	if (dup == NULL)
+	len_s2 = ft_strlen(s2);
+	len_s3 = ft_strlen(s3);
+	p = malloc((len_s1 + len_s2 + len_s3 + 1) * sizeof(char));
+	if (p == NULL || *s1 == NULL || s2 == NULL || s3 == NULL)
 		return (NULL);
-	dup_copy = dup;
-	while (*s1 && (*s1)[i] != '\0')
-	{
-		*dup_copy++ = (*s1)[i++];
-	}
-	i = 0;
-	while (s2[i] != '\0')
-	{
-		*dup_copy++ = s2[i];
-		i++;
-	}
-	*dup_copy++ = '\0';
+	ft_strlcpy(p, *s1, len_s1 + 1);
+	ft_memcpy(p + len_s1, s2, len_s2);
+	ft_memcpy(p + len_s1 + len_s2, s3, len_s3);
+	p[len_s1 + len_s2 + len_s3] = '\0';
 	free(*s1);
 	*s1 = NULL;
-	return (dup);
+	return (p);
 }

@@ -6,13 +6,13 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:01:40 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 03:44:47 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:55:41 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char **get_variables(char *cmd_line)
+char	**get_variables(char *cmd_line, t_var **data)
 {
 	char	**argv;
 	int		argc;
@@ -26,14 +26,14 @@ char **get_variables(char *cmd_line)
 	argv = (char **)malloc((argc + 1) * sizeof(char *));
 	if (argv == NULL)
 		return (NULL);
-	get_argv(cmd_line, argv);
+	get_argv(cmd_line, argv, (*data)->env);
 	return (argv);
 }
 
-int init_env(char **env, t_var **data)
+int	init_env(char **env, t_var **data)
 {
 	int	i;
-	int len;
+	int	len;
 
 	len = ft_strlen_2d(env);
 	(*data)->env = ft_calloc(len + 1, sizeof(char *));
@@ -56,7 +56,7 @@ int	init_data(char **env, t_var **data)
 	(*data)->variables = ft_calloc(1, sizeof(char *));
 	if ((*data)->variables == NULL)
 	{
-		free_2d_array(&(*data)->env);	
+		free_2d_array(&(*data)->env);
 		return (-1);
 	}
 	(*data)->variables[0] = NULL;

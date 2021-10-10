@@ -1,1 +1,1 @@
-123
+xterm-256colorxterm-256color

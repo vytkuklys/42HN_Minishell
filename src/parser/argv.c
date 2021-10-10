@@ -6,60 +6,63 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 00:01:27 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 01:21:30 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:40:11 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *get_text_outside_quotes(char *cmd_line, int *index, int len)
+char
+	*get_text_outside_quotes(char *cmd_line, int *index, int len, char **env)
 {
-    int		i;
-    int		j;
-    char	*text;
+	int		i;
+	int		j;
+	char	*text;
 
 	if (cmd_line == NULL)
 		return (NULL);
-    text = ft_calloc(ft_strlen(cmd_line) + 1, 1);
-    if (text == NULL) //add clean exit / free stuff
-        return (NULL);
+	text = ft_calloc(ft_strlen(cmd_line) + 1, 1);
+	if (text == NULL)
+		return (NULL);
 	i = 0;
-    j = 0;
-    while (cmd_line[i] != '\0' && i < len)
+	j = 0;
+	while (cmd_line[i] != '\0' && i < len)
 		i += add_char_to_text(&text, cmd_line, &j, i) + 1;
 	(*index) += i;
-    return (text);
+	expand_variable(&text, env, '"');
+	return (text);
 }
 
-char *get_text_in_quotes(char *start, int *index)
+char	*get_text_in_quotes(char *s, int *index, char **env)
 {
-	int	i;
-	int j;
-	char *quote;
+	int		i;
+	int		j;
+	char	*quote;
 
-	quote = ft_calloc(ft_strlen(start), 1);
+	quote = ft_calloc(ft_strlen(s), 1);
 	if (quote == NULL)
 		return (NULL);
 	i = 1;
 	j = 0;
-	while (start[i] != '\0')
+	while (s[i] != '\0')
 	{
-		if (start[i] == '\\')
-			i += add_slashes(&quote, &start[i], &j) - 1;
-		else if (start[i] == start[0] && is_char_escaped(start, i) && are_slashes_even(start, i))
-			break;
-		else if (!(start[i] == start[0] && !is_char_escaped(start, i)))
+		if (s[i] == '\\')
+			i += add_slashes(&quote, &s[i], &j) - 1;
+		else if (s[i] == s[0] && is_char_escaped(s, i) && are_slashes_even(s, i))
+			break ;
+		else if (!(s[i] == s[0] && !is_char_escaped(s, i)))
 		{
-			quote[j] = start[i];
+			quote[j] = s[i];
 			j++;
 		}
-			i++;
+		i++;
 	}
+	expand_variable(&quote, env, s[0]);
 	(*index) += i + 1;
 	return (quote);
 }
 
-char *get_arg(char *cmd_line, int len)
+char	*get_arg(char *cmd_line, int len, char **env)
 {
 	int		i;
 	char	*arg;
@@ -72,9 +75,9 @@ char *get_arg(char *cmd_line, int len)
 	while (cmd_line && cmd_line[i] != '\0' && i < len)
 	{
 		if (cmd_line[i] == '\'' || cmd_line[i] == '"')
-			tmp = get_text_in_quotes(cmd_line, &i);
+			tmp = get_text_in_quotes(cmd_line, &i, env);
 		else
-			tmp = get_text_outside_quotes(cmd_line, &i, len);
+			tmp = get_text_outside_quotes(cmd_line, &i, len, env);
 		arg = ft_strjoin(&arg, tmp);
 		free(tmp);
 		tmp = NULL;
@@ -82,11 +85,11 @@ char *get_arg(char *cmd_line, int len)
 	return (arg);
 }
 
-int get_argv(char *cmd_line, char **argv)
+int	get_argv(char *cmd_line, char **argv, char **env)
 {
 	int	i;
 	int	j;
-	int len;
+	int	len;
 
 	i = 0;
 	j = 0;
@@ -96,7 +99,7 @@ int get_argv(char *cmd_line, char **argv)
 		if (cmd_line[i] != ' ')
 		{
 			len = get_arg_len(&cmd_line[i]);
-			argv[j] = get_arg(&cmd_line[i], len);
+			argv[j] = get_arg(&cmd_line[i], len, env);
 			j++;
 			i += len;
 		}
@@ -106,32 +109,3 @@ int get_argv(char *cmd_line, char **argv)
 	argv[j] = NULL;
 	return (0);
 }
-
-// int main(void)
-// {
-// 	// char *cmd_line;
-//     // t_var   *data;
-
-// 	char **env;
-
-// 	env = (char**)calloc(2, sizeof(char *));
-// 	// env[0] = "ABC=123";
-// 	// env[1] = "A=123";
-// 	// env[2] = "B=123";
-// 	// env[3] = "TEMP=1";
-// 	// env[4] = NULL;
-//     // data = (t_var *)malloc(sizeof(t_var));
-// 	// if (!data)
-// 	// 	return (-1);
-
-// 	get_argv("\\\"", env);
-// 	// get_argv("abcdefgh", env);
-// 	fprintf(stderr, "%s", env[0]);
-// 	// int i = 0;
-// 	// while(data->env[i] != NULL)
-// 	// {
-// 	// 	printf("%s", data->env[i]);
-// 	// 	i++;
-// 	// }
-// 	return 0;
-// }

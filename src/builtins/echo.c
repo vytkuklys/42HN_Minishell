@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 01:02:31 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 03:58:25 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 01:04:26 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,14 @@ int	execute_echo(char **argv, char **env)
 	return (0);
 }
 
-char    *get_echo(char *cmd_line, char **env)
+char	*get_echo(char *cmd_line, t_var **data)
 {
 	char	**argv;
 
-	argv = get_variables(cmd_line);
+	argv = get_variables(cmd_line, data);
 	if (argv == NULL)
 		return (NULL);
-	get_argv(cmd_line, argv);
-	execute_echo(argv, env);
+	execute_echo(argv, (*data)->env);
 	if (!access("result.txt", R_OK))
 		print_echo(open("result.txt", O_RDONLY));
 	free_2d_array(&argv);

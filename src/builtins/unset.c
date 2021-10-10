@@ -6,13 +6,13 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:54:09 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 03:57:58 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 01:08:06 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int is_unset_arg_valid(char *argv, int *flag)
+int	is_unset_arg_valid(char *argv, int *flag)
 {
 	int	j;
 
@@ -22,17 +22,17 @@ int is_unset_arg_valid(char *argv, int *flag)
 	while (argv[j] != '\0')
 	{
 		if (j == 0 && !(ft_isalpha(argv[j]) || argv[j] == '_'))
-			return (print_export_error(argv, flag
-				, "minishell: invalid parameter name: "));
+			return (print_export_error(argv, flag,
+					"minishell: invalid parameter name: "));
 		if (!(ft_isalnum(argv[j]) || argv[j] == '_'))
-			return (print_export_error(argv, flag
-				, "minishell: invalid parameter name: "));
+			return (print_export_error(argv, flag,
+					"minishell: invalid parameter name: "));
 		j++;
 	}
 	return (1);
 }
 
-int does_unset_variable_exist(char **env, char *arg)
+int	does_variable_exist(char **env, char *arg)
 {
 	int		i;
 	int		j;
@@ -60,7 +60,7 @@ int does_unset_variable_exist(char **env, char *arg)
 	return (-1);
 }
 
-char **remove_arg_from_env(char ***env, char *arg)
+char	**remove_arg_from_env(char ***env, char *arg)
 {
 	char	**tmp;
 	int		i;
@@ -68,13 +68,13 @@ char **remove_arg_from_env(char ***env, char *arg)
 	int		index;
 
 	if ((*env) == NULL || arg == NULL)
-		return NULL;
+		return (NULL);
 	tmp = (char **)ft_calloc(ft_strlen_2d((*env)), sizeof(char *));
 	if (tmp == NULL)
 		return (NULL);
 	i = 0;
 	j = 0;
-	index = does_unset_variable_exist(*env, arg);
+	index = does_variable_exist(*env, arg);
 	while ((*env)[i] != NULL)
 	{
 		if (i != index)
@@ -86,7 +86,7 @@ char **remove_arg_from_env(char ***env, char *arg)
 	}
 	tmp[j] = NULL;
 	free_2d_array(env);
-	return (tmp);	
+	return (tmp);
 }
 
 char	*ft_unset(char *cmd_line, t_var **data)
@@ -95,7 +95,7 @@ char	*ft_unset(char *cmd_line, t_var **data)
 	int		i;
 	int		flag;
 
-	argv = get_variables(cmd_line);
+	argv = get_variables(cmd_line, data);
 	if (argv == NULL)
 		return (NULL);
 	i = 1;
@@ -104,7 +104,7 @@ char	*ft_unset(char *cmd_line, t_var **data)
 	{
 		if (is_unset_arg_valid(argv[i], &flag))
 		{
-			if (does_unset_variable_exist((*data)->env, argv[i]) != -1)
+			if (does_variable_exist((*data)->env, argv[i]) != -1)
 				(*data)->env = remove_arg_from_env(&(*data)->env, argv[i]);
 		}
 		i++;

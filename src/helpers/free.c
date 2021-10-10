@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 22:55:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:45:31 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:57:27 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	free_2d_array(char ***arr)
 	*arr = NULL;
 }
 
-
-char *free_str(char **str)
+char	*free_str(char **str)
 {
 	if (*str == NULL)
 		return (NULL);

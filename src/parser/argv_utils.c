@@ -6,16 +6,16 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:58:36 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 00:11:46 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:41:13 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_arg_len(char *cmd_line)
+int	get_arg_len(char *cmd_line)
 {
-	int i;
-	int len;
+	int	i;
+	int	len;
 
 	i = 0;
 	len = 0;
@@ -30,9 +30,9 @@ int get_arg_len(char *cmd_line)
 	return (len);
 }
 
-int add_char_to_text(char **str, char *cmd_line, int *j, int i)
+int	add_char_to_text(char **str, char *cmd_line, int *j, int i)
 {
-	int whitespace;
+	int	whitespace;
 
 	whitespace = 0;
 	if (cmd_line && cmd_line[i] == '\\')
@@ -61,7 +61,7 @@ int add_char_to_text(char **str, char *cmd_line, int *j, int i)
 
 char	get_whitespace_char(char c, int slashes)
 {
-	float coefficient;
+	float	coefficient;
 
 	coefficient = (float)slashes / 4;
 	coefficient = coefficient - (int)coefficient;
@@ -82,19 +82,19 @@ char	get_whitespace_char(char c, int slashes)
 	return ('\0');
 }
 
-int round_num(float num)
+int	round_num(float num)
 {
 	if (num - (int)num >= 0.5)
 		return ((int)num + 1);
 	return ((int)num);
 }
 
-int add_slashes(char **quote, char *start, int *j)
+int	add_slashes(char **quote, char *start, int *j)
 {
 	int		i;
 	int		slashes;
 
-	if (start == NULL || *quote == NULL) //add clean exit / free stuff
+	if (start == NULL || *quote == NULL)
 		return (-1);
 	i = 0;
 	while (start && start[i] == '\\')

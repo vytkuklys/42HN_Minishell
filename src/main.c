@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 03:44:24 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/09 00:51:08 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int process_command_line(char **cmd_line, t_var **data)
 	}
 	else if (!ft_strncmp(cmd, "echo", 4))
 	{
-		output = get_echo(*cmd_line, (*data)->env);
+		output = get_echo(*cmd_line, data);
 	}
 	else if (!ft_strncmp(cmd, "env", 3))
     {
@@ -80,10 +80,10 @@ int process_command_line(char **cmd_line, t_var **data)
     {
         ft_unset(*cmd_line, data);
     }
-    else if (ft_strchr(cmd, '='))
-    {
-        set_variables(*cmd_line, data);
-    }
+    // else if (ft_strchr(cmd, '='))
+    // {
+    //     // set_variables(*cmd_line, data);
+    // }
 	else if (cmd[0] != '\0')
 	{
 		write(1, "minishell: command not found: ", 31);
@@ -101,7 +101,7 @@ void process_signal(int signum)
 {
 	if (signum == SIGINT)
     {
-    	write(2, "\b\b  ", 4);
+    	write(2, "\b\b", 2);
 		print_prompt(ERR0R_PROMPT);
     }
 }

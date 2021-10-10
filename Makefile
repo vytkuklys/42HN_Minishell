@@ -6,7 +6,7 @@
 #    By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/08 03:43:48 by vkuklys          ###   ########.fr        #
+#    Updated: 2021/10/09 22:49:24 by vkuklys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ NAME=minishell
 FLAGS=-Werror -Wextra -Wall
 SRC= src/main.c src/helpers/printer.c src/builtins/echo.c src/parser/argv_utils.c src/helpers/free.c src/builtins/env.c \
 		src/parser/validation.c src/parser/argc.c src/helpers/counter.c src/parser/argv.c src/builtins/exit.c \
-		gnl/get_next_line.c src/init/init.c src/builtins/export.c src/builtins/unset.c src/environment/variables.c
+		gnl/get_next_line.c src/init/init.c src/builtins/export.c src/builtins/unset.c src/parser/variables.c
 INCLUDES=libft/libft.a
 
 all:

@@ -6,16 +6,17 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 22:50:32 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 23:41:18 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:57:09 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_end_of_quote_pos(char *str)
+int	get_end_of_quote_pos(char *str)
 {
-	int i;
-	if (str == NULL) //add clean exit / free stuff
+	int	i;
+
+	if (str == NULL)
 		return (-1);
 	i = 1;
 	while (str[i] != '\0')
@@ -34,15 +35,13 @@ int get_end_of_quote_pos(char *str)
 	return (-1);
 }
 
-int get_end_of_arg_pos(char *str)
+int	get_end_of_arg_pos(char *str)
 {
-	int i;
+	int	i;
 
-	if (str == NULL) //add clean exit / free stuff
+	if (str == NULL)
 		return (-1);
 	i = 0;
-	// while (str[i] != '\0' && str[i] != ' ' && !ft_strchr("\"'", str[i]))
-
 	while (str[i] != '\0' && str[i] != ' ')
 	{
 		if (ft_strchr("'\"", str[i]) && is_char_escaped(str, i))
@@ -59,9 +58,9 @@ int get_end_of_arg_pos(char *str)
 	return (i);
 }
 
-int get_whitespace(char *cmd_line)
+int	get_whitespace(char *cmd_line)
 {
-	int space;
+	int	space;
 
 	space = 0;
 	while (*cmd_line && ft_strchr(" \t\v\f\r\b", *cmd_line))

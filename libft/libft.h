@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/30 22:04:27 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:31:21 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,5 +92,7 @@ int				get_min(int a, int b);
 char			*ft_free_2d_array(char ***arr, unsigned int allocated);
 int				ft_strlen_2d(char **s);
 int				ft_strrstr(const char *big, const char *lil);
+char			*ft_triple_strjoin(char **s1, char const *s2, char const *s3,
+					int len_s1);
 
 #endif

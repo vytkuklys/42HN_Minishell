@@ -6,13 +6,13 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:38:51 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/03 01:37:20 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 00:37:36 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int is_char_escaped(char *cmd_line, int i)
+int	is_char_escaped(char *cmd_line, int i)
 {
 	if (i == 0)
 		return (0);
@@ -21,7 +21,7 @@ int is_char_escaped(char *cmd_line, int i)
 	return (1);
 }
 
-int exists_pipes(char *cmd_line)
+int	exists_pipes(char *cmd_line)
 {
 	char	quote;
 	int		i;
@@ -41,7 +41,7 @@ int exists_pipes(char *cmd_line)
 	return (0);
 }
 
-int are_slashes_even(char *cmd_line, int i)
+int	are_slashes_even(char *cmd_line, int i)
 {
 	int	slashes;
 
@@ -55,7 +55,7 @@ int are_slashes_even(char *cmd_line, int i)
 	return (slashes % 2 == 0);
 }
 
-int are_quotes_valid(char *cmd_line)
+int	are_quotes_valid(char *cmd_line)
 {
 	char	quote;
 	int		i;
@@ -64,7 +64,8 @@ int are_quotes_valid(char *cmd_line)
 	i = 0;
 	while (cmd_line[i] != '\0')
 	{
-		if (!quote && (cmd_line[i] == '\'' || cmd_line[i] == '"') && !is_char_escaped(cmd_line, i))
+		if (!quote && (cmd_line[i] == '\'' || cmd_line[i] == '"')
+			&& !is_char_escaped(cmd_line, i))
 			quote = cmd_line[i];
 		else if (quote && cmd_line[i] == quote && !is_char_escaped(cmd_line, i))
 			quote = '\0';
@@ -80,7 +81,7 @@ int are_quotes_valid(char *cmd_line)
 	return (0);
 }
 
-int are_slashes_valid(char *cmd_line)
+int	are_slashes_valid(char *cmd_line)
 {
 	char	quote;
 	int		i;
@@ -104,15 +105,7 @@ int are_slashes_valid(char *cmd_line)
 			quote = cmd_line[i];
 		else if (quote && cmd_line[i] == quote && !is_char_escaped(cmd_line, i))
 			quote = '\0';
-		i+= 1 + j;
+		i += 1 + j;
 	}
 	return (1);
 }
-
-// int main(int argc, char **argv)
-// {
-//     printf("%d", are_slashes_valid("\\\\'"));
-//     if (argv == NULL)
-//         return (1);
-//     return (0);
-// }

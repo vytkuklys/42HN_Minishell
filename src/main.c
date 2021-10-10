@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/09 00:51:08 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 05:11:08 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,9 @@ int process_command_line(char **cmd_line, t_var **data)
     cmd = get_command(*cmd_line);
     if (!ft_strncmp(cmd, "pwd", 3))
 	{
-        output = get_pwd((*cmd_line) + 3);
-    	write(1, output, ft_strlen(output));
-		write(1, "\n", 1);
+        ft_pwd();
+    	// write(1, output, ft_strlen(output));
+		// write(1, "\n", 1);
 	}
 	else if (!ft_strncmp(cmd, "echo", 4))
 	{
@@ -80,10 +80,10 @@ int process_command_line(char **cmd_line, t_var **data)
     {
         ft_unset(*cmd_line, data);
     }
-    // else if (ft_strchr(cmd, '='))
-    // {
-    //     // set_variables(*cmd_line, data);
-    // }
+    else if (!ft_strncmp(cmd, "cd", 2))
+    {
+        ft_cd(*cmd_line, data);
+    }
 	else if (cmd[0] != '\0')
 	{
 		write(1, "minishell: command not found: ", 31);

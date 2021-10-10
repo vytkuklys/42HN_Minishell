@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 03:41:55 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/10 05:14:08 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,7 @@ char	*ft_unset(char *cmd_line, t_var **data);
 char	**get_variables(char *cmd_line, t_var **data);
 int		does_variable_exist(char **env, char *arg);
 int		expand_variable(char **arg, char **env, char quote);
+int		ft_pwd(void);
+int		ft_cd(char *cmd_line, t_var **data);
 
 #endif

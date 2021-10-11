@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:48:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 01:06:41 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/11 05:25:30 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	modify_arg_in_env(char **env, char *arg)
 	return (0);
 }
 
-char	*ft_export(char *cmd_line, t_var **data)
+int	ft_export(char *cmd_line, t_var **data)
 {
 	char	**argv;
 	int		i;
@@ -109,7 +109,7 @@ char	*ft_export(char *cmd_line, t_var **data)
 
 	argv = get_variables(cmd_line, data);
 	if (argv == NULL)
-		return (NULL);
+		return (-1);
 	i = 1;
 	flag = 0;
 	while (argv[i] != NULL)
@@ -117,14 +117,12 @@ char	*ft_export(char *cmd_line, t_var **data)
 		if (is_arg_valid(argv[i], &flag))
 		{
 			if (doest_export_var_exists((*data)->env, argv[i]) != -1)
-			{
 				modify_arg_in_env((*data)->env, argv[i]);
-			}
 			else
 				(*data)->env = add_arg_to_env(&(*data)->env, argv[i]);
 		}
 		i++;
 	}
 	free_2d_array(&argv);
-	return (NULL);
+	return (0);
 }

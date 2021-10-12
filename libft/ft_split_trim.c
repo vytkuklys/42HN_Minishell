@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split_trim.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 12:37:23 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/07 14:44:12 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/11 17:20:39 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	**do_split(char	**s_array, char const *s, char c, int i, char *d)
 		while (i < j)
 			s_array[s_num][k++] = s[i++];
 		s_array[s_num][k] = '\0';
-		s_array[s_num] = ft_strtrim(s_array[s_num], " ");
+		s_array[s_num] = ft_strtrim(s_array[s_num], d);
 		s_num++;
 		while (s[i] != '\0' && s[i] == c)
 			i++;

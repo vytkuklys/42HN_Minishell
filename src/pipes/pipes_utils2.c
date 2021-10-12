@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_command_utils.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:59:36 by julian            #+#    #+#             */
-/*   Updated: 2021/10/06 11:25:30 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/11 11:26:58 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+void	pr_error(char *s1, char *s2)
+{
+	if (s1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(s1, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (s2)
+		ft_putstr_fd(s2, 2);
+	write(2, "\n", 1);
+}
 
 void	free_array(char **src)
 {
@@ -31,8 +44,8 @@ void	exit_failure(char **path, char **cmd_n)
 
 int	check_builtin_command(char *cmd)
 {
-	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") 
-		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export") 
+	if (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "cd") \
+		|| !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export") \
 		|| !ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "env")
 		|| !ft_strcmp(cmd, "exit"))
 		return (1);

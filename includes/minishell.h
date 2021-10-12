@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/08 17:24:00 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/12 18:34:30 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 
-typedef struct s_operators
+typedef struct s_op
 {
 	int	pipes;
 	int	heredoc;
 	int	append;
-	int redirect_int;
+	int	redirect_int;
 	int	redirect_out;
-}			t_operators;
+}			t_op;
 
-void	print_prompt(int prompt, int i);
+char	*print_prompt(void);
+void	print_error_prompt(void);
 char	*get_echo(char *cmd_line, char **env);
 int		get_whitespace(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
@@ -55,23 +56,32 @@ char	*get_exit(char *cmd_line);
 int		get_arg_len(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
 int		check_pipes(char **cmd_line);
-void	execute_single_command(char *cmd, char *envp[]);
-void	execute_single_child(char *cmd, char *envp[]);
-int		check_single_command(char *cmd, char *envp[]);
+void	execute_single_command(char ***argv, char *envp[]);
+void	execute_child(char **command, char *envp[]);
+int		check_command(char **argv, char *envp[]);
 char	**get_path(char *envp[]);
 int		print_error_cmd(char *src);
 void	exit_failure(char **path, char **cmd_n);
 void	free_array(char **src);
-void	execute_compound_commands(t_operators *op,  char *cmd_line, char *envp[]);
+void	execute_compound_commands(char ***argv, char *envp[], int pipes);
 void	close_fds(int pipes, int fd[][2]);
-void	initialize_operators(t_operators *op);
+void	initialize_operators(t_op *op);
 int		check_builtin_command(char *cmd);
-char	 *get_command(char *cmd_line);
+char	*get_command(char *cmd_line);
 char	*get_pwd(char *cmd_line);
-void	execute_cmd(char *cmds, char *envp[]);
-int		execute_builtin_command(char *cmd0, char *env[]);
+void	execute_cmd(char ***argv, char *envp[], int i);
+int		execute_builtin_command(char **argv, char *env[]);
 int		ft_pwd(void);
 char	*trim_pipes(char *src);
 char	**ft_split_trim2(char const *s, char c, char *d);
+void	pr_error(char *s1, char *s2);
+void	get_redirections(t_op *op, char *s);
+char	*trim_pipes(char *src);
+char	**ft_split_pipe(char *s, char c, char *d);
+void	free_argv(char ***argv);
+int		exists_red_out(char **s);
+int		exists_red_in(char **s);
+int		exists_red_append(char **s);
+int		exists_red_heredoc(char **s);
 
 #endif

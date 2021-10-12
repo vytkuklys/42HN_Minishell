@@ -1,39 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin_space.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/30 22:55:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/12 11:32:02 by jludt            ###   ########.fr       */
+/*   Created: 2021/10/12 13:19:58 by jludt             #+#    #+#             */
+/*   Updated: 2021/10/12 13:45:32 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "libft.h"
 
-char *free_str(char **str)
+char	*ft_strjoin_space(char **src)
 {
-	if (*str == NULL)
+	int		i;
+	char	*s_join;
+
+	if (*src == NULL || src == NULL)
 		return (NULL);
-	free(*str);
-	*str = NULL;
-	return (NULL);
-}
-
-void	free_argv(char ***argv)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (argv[i] != NULL)
+	s_join = ft_calloc(1, 1);
+	i = -1;
+	while (src[++i] != NULL)
 	{
-		j = 0;
-		while (argv[i][j] != NULL)
-			free(argv[i][j++]);
-		free(argv[i++]);
+		s_join = ft_strjoin(&s_join, src[i]);
+		if (src[i + 1] != NULL)
+			s_join = ft_strjoin(&s_join, " ");
 	}
-	free(argv);
-	
+	return (s_join);
 }

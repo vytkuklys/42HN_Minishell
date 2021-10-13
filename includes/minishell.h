@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 06:08:28 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/13 04:20:07 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 
 typedef struct s_var
 {
+	char	**history;
 	char	**env;
 	int		error;
 }			t_var;
@@ -65,6 +66,10 @@ void	handle_arg_without_quotes(int *counted, int *argc);
 int		handle_quotes(char *cmd_line, int *counted, int *argc, int i);
 int		handle_spaces(char *cmd_line, int *counted, int i);
 int		process_command_line(char **cmd_line, t_var **data, char *cmd);
+int		print_history(char **history);
+int		add_cmd_to_history(char *cmd, t_var **data);
+int		print_cmd_not_found(char *cmd);
+int		free_data(t_var **data, char **cmd);
 
 
 #endif

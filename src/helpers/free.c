@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 22:55:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:57:27 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/13 04:22:10 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,13 @@ char	*free_str(char **str)
 	free(*str);
 	*str = NULL;
 	return (NULL);
+}
+
+int	free_data(t_var **data, char **cmd)
+{
+	free_str(cmd);
+	free_2d_array(&(*data)->env);
+	free_2d_array(&(*data)->history);
+	free(*data);
+	return (0);
 }

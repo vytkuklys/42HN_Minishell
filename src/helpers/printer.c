@@ -6,11 +6,31 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 00:01:03 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 01:00:17 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/13 03:52:31 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int print_cmd_not_found(char *cmd)
+{
+    int i;
+    int quote;
+
+    i = 0;
+    quote = 0;
+    while (cmd && cmd[i] != '\0')
+    {
+        if ((cmd[i] == '"' || cmd[i] == '\''))
+            quote++;
+        i++;
+    }
+    if (i == quote)
+        write(1, "minishell: command not found: \n", 32);
+    else
+        printf("minishell: command not found: %s\n", cmd);
+    return (0);
+}
 
 int	print_export_error(char *arg, int *flag, char *error)
 {

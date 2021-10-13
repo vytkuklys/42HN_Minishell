@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 06:20:37 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/13 04:26:33 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ int process_command_line(char **cmd_line, t_var **data, char *cmd)
         (*data)->error = ft_unset(*cmd_line, data);
     else if (!ft_strncmp(cmd, "cd", 2))
         ft_cd(*cmd_line, data);
+    else if (!ft_strncmp(cmd, "history", 7))
+        print_history((*data)->history);
 	else if (cmd[0] != '\0')
-		printf("minishell: command not found: %s\n", cmd);
+        print_cmd_not_found(cmd);
     if (handle_cmd_terminator(cmd_line, data) == -1)
         return (0);
     free(*cmd_line);
@@ -106,6 +108,7 @@ int main(int argc, char **argv, char **env)
         buff[bytes] = '\0';
         if (buff[0] == '\n')
         {
+            add_cmd_to_history(cmd_line, &data);
             if (!process_command_line(&cmd_line, &data, get_command(cmd_line)))
                 break ;
             print_prompt(PROMPT);
@@ -113,7 +116,6 @@ int main(int argc, char **argv, char **env)
         else
             cmd_line = ft_strjoin(&cmd_line, buff);
     }
-    free_2d_array(&data->env);
-    free_str(&cmd_line);
-    return (0);
+    free_data(&data, &cmd_line);
+    exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:01:40 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:16:22 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/13 03:21:04 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ int	init_data(char **env, t_var **data)
 	if (init_env(env, data) == -1)
 		return (-1);
 	(*data)->error = 0;
+	(*data)->history = (char **)malloc((1) * sizeof(char *));
+	(*data)->history[0] = NULL;
 	return (0);
 }

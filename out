@@ -1,17 +1,1 @@
-total 248
--rw-r--r--   1 jludt  2021_heilbronn   2665 Oct 12 10:08 Makefile
-drwxr-xr-x   7 jludt  2021_heilbronn    238 Oct 11 09:44 gnl
-drwxr-xr-x   3 jludt  2021_heilbronn    102 Oct 11 09:45 includes
-drwxr-xr-x  60 jludt  2021_heilbronn   2040 Oct 12 18:34 libft
--rw-r--r--   1 jludt  2021_heilbronn  47952 Oct 12 18:34 libft.a
--rwxr-xr-x   1 jludt  2021_heilbronn  71624 Oct 12 18:34 minishell
--rwxr-xr-x   1 jludt  2021_heilbronn      0 Oct 12 18:35 out
-drwxr-xr-x   7 jludt  2021_heilbronn    238 Oct 11 16:16 src
-Makefile
-gnl
-includes
-libft
-libft.a
-minishell
-out
-src
+       9      74     520

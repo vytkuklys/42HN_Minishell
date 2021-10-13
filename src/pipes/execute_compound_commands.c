@@ -6,33 +6,11 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/12 15:21:52 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 16:05:18 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-//void	execute_cmd(char *cmds, char *envp[])
-void	execute_cmd(char ***argv, char *envp[], int i)
-{
-	int		j;
-	char	*cmd;
-	char	**path;
-
-	if (!execute_builtin_command(argv[i], envp))
-		return ;
-	path = get_path(envp);
-	j = -1;
-	while (path[++j] != NULL)
-	{
-		cmd = ft_strjoin(&path[j], argv[i][0]);
-		if (cmd == NULL)
-			return ;
-		execve(cmd, argv[i], envp);
-		free(cmd);
-	}
-	free_array(path);
-}
 
 static void	child_process(char ***argv, char *envp[], int fd[][2], int i, int pipes)
 {
@@ -52,7 +30,7 @@ static void	child_process(char ***argv, char *envp[], int fd[][2], int i, int pi
 			return (perror("CHILD_PROCESS3"));
 	}
 	close_fds(pipes, fd);
-	execute_cmd(argv, envp, i);
+	prepare_execution(argv[i], envp);
 }
 
 static void	pipe_fork(char ***argv, char *envp[], int pipes)

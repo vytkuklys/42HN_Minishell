@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 00:01:03 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/12 10:23:30 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 11:51:13 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 char	*print_prompt(void)
 {
-	return ("\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;33m➜ \033[0;37m");
+	char *p;
+
+	p = "\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;33m➜ \033[0;37m";
+	return (p);
 }
 
 void	print_error_prompt(void)
 {
-	write(1, "\n\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;31m➜ \033[0;37m", 50);
+	char	*pe;
+
+	pe = "\n\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;31m➜ \033[0;37m";
+	write(1, pe, ft_strlen(pe));
 }

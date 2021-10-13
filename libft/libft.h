@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/12 13:20:55 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 14:02:43 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,4 +95,5 @@ int				ft_strrstr(const char *big, const char *lil);
 int				ft_strcmp(char *s1, char *s2);
 char			**ft_split_trim(char const *s, char c, char *d);
 char			*ft_strjoin_space(char **src);
+char			*ft_strjoin2(char **s1, const char *s2);
 #endif

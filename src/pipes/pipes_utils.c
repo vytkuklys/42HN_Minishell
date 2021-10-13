@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/12 18:12:12 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 14:42:56 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ int	check_command(char **argv, char *envp[])
 	char	*cmd;
 	char	**path;
 
-	if (!ft_strcmp(argv[0], "<") || !ft_strcmp(argv[0], ">"))
+	if (!ft_strcmp(argv[0], "<") || !ft_strcmp(argv[0], ">") \
+		|| !ft_strcmp(argv[0], "<<") || !ft_strcmp(argv[0], ">>"))
 		return (1);
 	if (check_builtin_command(argv[0]))
 		return (1);
@@ -26,7 +27,7 @@ int	check_command(char **argv, char *envp[])
 	i = -1;
 	while (path[++i] != NULL)
 	{
-		cmd = ft_strjoin(&path[i], argv[0]);
+		cmd = ft_strjoin2(&path[i], argv[0]);
 		if (cmd == NULL)
 			break ;
 		if (access(cmd, X_OK) != -1)
@@ -53,11 +54,14 @@ int	execute_builtin_command(char **argv, char *env[])
 	{
 		ft_pwd();
 		free(cmd_line);
+		free(cmd);
 		return (0);
 	}
 	else if (!ft_strcmp(cmd, "echo"))
 	{
 		output = get_echo(cmd_line, env);
+		free(cmd_line);
+		free(cmd);
 		//write(1, output, ft_strlen(output));
 		return (0);
 	}
@@ -65,6 +69,7 @@ int	execute_builtin_command(char **argv, char *env[])
 	{
 		get_env(env);
 		free(cmd_line);
+		free(cmd);
 		return (0);
 	}
 	else if (!ft_strcmp(cmd, "exit"))
@@ -74,8 +79,11 @@ int	execute_builtin_command(char **argv, char *env[])
 			return (0);
 		write(1, output, ft_strlen(output));
 		free(cmd_line);
+		free(cmd);
 		return (0);
 	}
+	free(cmd_line);
+	free(cmd);
 	return (1);
 }
 

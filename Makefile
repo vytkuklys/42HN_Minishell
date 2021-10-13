@@ -6,7 +6,7 @@
 #    By: jludt <jludt@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/12 10:08:33 by jludt            ###   ########.fr        #
+#    Updated: 2021/10/13 14:52:15 by jludt            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,12 @@ SRC=	src/main.c								\
 		src/pipes/ft_split_pipe.c				\
 		src/pipes/pipes_utils.c					\
 		src/pipes/pipes_utils2.c				\
-		src/pipes/trim_pipes.c					
+		src/pipes/prepare_execution.c			\
+		src/redirections/append.c				\
+		src/redirections/heredoc.c				\
+		src/redirections/input.c				\
+		src/redirections/output.c
+		
 
 OBJECTS = ./*.o
 NAME_LIB = libft.a

@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/12 18:34:30 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 14:55:23 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int		get_arg_len(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j);
 int		check_pipes(char **cmd_line);
 void	execute_single_command(char ***argv, char *envp[]);
-void	execute_child(char **command, char *envp[]);
+void	execute_cmd(char **command, char *envp[]);
 int		check_command(char **argv, char *envp[]);
 char	**get_path(char *envp[]);
 int		print_error_cmd(char *src);
@@ -69,7 +69,6 @@ void	initialize_operators(t_op *op);
 int		check_builtin_command(char *cmd);
 char	*get_command(char *cmd_line);
 char	*get_pwd(char *cmd_line);
-void	execute_cmd(char ***argv, char *envp[], int i);
 int		execute_builtin_command(char **argv, char *env[]);
 int		ft_pwd(void);
 char	*trim_pipes(char *src);
@@ -83,5 +82,10 @@ int		exists_red_out(char **s);
 int		exists_red_in(char **s);
 int		exists_red_append(char **s);
 int		exists_red_heredoc(char **s);
+void	prepare_execution(char **argv, char *envp[]);
+char	**redirect_heredoc(char **argv);
+char	**redirect_in(char **argv);
+char	**redirect_append(char **argv);
+char	**redirect_out(char **argv);
 
 #endif

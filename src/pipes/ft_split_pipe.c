@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/24 12:37:23 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/11 17:16:47 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 14:11:23 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ char	**ft_split_pipe(char *s, char c, char *d)
 	if (s_array == NULL)
 		return (NULL);
 	s_array = do_split(s_array, s, c, d);
+	free(s);
 	return (s_array);
 }

@@ -6,7 +6,7 @@
 /*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/12 14:15:51 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/13 14:11:51 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	process_command_line(char **cmd_line, char **env)
 	char	**split_at_pipe;
 	int		nbr_of_pipes;
 
+	if (!*cmd_line)
+		return (1);
 	if (*env == NULL)
 		return (0);
 	nbr_of_pipes = exists_pipes(*cmd_line);
@@ -63,7 +65,7 @@ int	process_command_line(char **cmd_line, char **env)
 	while (++i <= nbr_of_pipes)
 	{
 		argc = get_argc(split_at_pipe[i]);
-		if (argc == -1)
+		if (argc < 0)
 		{
 			printf("minishell: invalid command line arguments\n");
 			return (0);
@@ -78,7 +80,6 @@ int	process_command_line(char **cmd_line, char **env)
 	if (nbr_of_pipes == 0) // single command
 	{
 		execute_single_command(argv, env);
-		free(*cmd_line);
 		free_argv(argv);
 		*cmd_line = ft_calloc(1, 1);
 		if (*cmd_line == NULL) //add clean exit
@@ -88,7 +89,6 @@ int	process_command_line(char **cmd_line, char **env)
 	else if (nbr_of_pipes > 0)
 	{
 		execute_compound_commands(argv, env, nbr_of_pipes);
-		free(*cmd_line);
 		free_argv(argv);
 		*cmd_line = ft_calloc(1, 1);
 		if (*cmd_line == NULL) //add clean exit
@@ -111,22 +111,45 @@ void	process_signal(int signum)
 int	main(int argc, char **argv, char **env)
 {
 	char	*cmd_line;
+	char	*tmp;
+	int		error;
 
 	if (argc == 0 && argv == NULL)
 		argc = 0;
 	signal(SIGINT, process_signal);
 	signal(SIGQUIT, process_signal);
-	while ((cmd_line = readline(print_prompt())))
+	error = 0;
+	cmd_line = readline(print_prompt());
+	while (cmd_line)
 	{
-		if (cmd_line && *cmd_line)
-			add_history(cmd_line);
+		if (cmd_line[0] == 0)
+			error = 1;
 		if (check_pipes(&cmd_line))
 		{
-			free (cmd_line);
-			continue;
+			free(cmd_line);
+			error = 1;
 		}
-		if (!process_command_line(&cmd_line, env))
-			break ;
+		while ((cmd_line[ft_strlen(cmd_line) - 1] == '|') && error != 1)
+		{
+			tmp = readline("> ");
+			if (check_pipes(&tmp))
+			{
+				free (tmp);
+				free (cmd_line);
+				error = 1;
+				break ;
+			}
+			cmd_line = ft_strjoin(&cmd_line, tmp);
+			free (tmp);
+		}
+		if (cmd_line && *cmd_line)
+			add_history(cmd_line);
+		if (error == 0)
+			if (!process_command_line(&cmd_line, env))
+				break ;
+		error = 0;
+		free(cmd_line);
+		cmd_line = readline(print_prompt());
 	}
 	free_str(&cmd_line);
 	return (0);

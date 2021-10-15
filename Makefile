@@ -6,7 +6,7 @@
 #    By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/13 03:38:38 by vkuklys          ###   ########.fr        #
+#    Updated: 2021/10/14 22:33:51 by vkuklys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,13 @@ SRC= src/main.c src/helpers/printer.c src/builtins/echo.c src/parser/argv_utils.
 		gnl/get_next_line.c src/init/init.c src/builtins/export.c src/builtins/unset.c src/parser/variables.c src/builtins/pwd.c \
 		src/builtins/cd.c src/parser/validation_2.c src/builtins/history.c
 INCLUDES=libft/libft.a
+LFLAGS = -L$$HOME/.brew/opt/readline/lib -lreadline
+CPFLAGS = -I$$HOME/.brew/opt/readline/include
 
 all:
 	@echo "$(YELLOW)\n       -> Building $(NAME) ...$(RESET)"
 	@make -C libft/ bonus -s
-	@gcc $(FLAGS) $(SRC) $(INCLUDES) -o $(NAME)
+	@gcc $(FLAGS) $(LFLAGS) $(CPFLAGS) $(SRC) $(INCLUDES) -o $(NAME)
 	@echo "$(GREEN)***   Project $(NAME) successfully compiled   ***\n$(RESET)"
 
 clean:

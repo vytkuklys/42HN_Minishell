@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 04:20:07 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/15 00:17:01 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int		print_history(char **history);
 int		add_cmd_to_history(char *cmd, t_var **data);
 int		print_cmd_not_found(char *cmd);
 int		free_data(t_var **data, char **cmd);
-
+char	*print_prompts(void);
+void	print_error_prompts(void);
+int		get_len(char *s1, char *s2);
 
 #endif

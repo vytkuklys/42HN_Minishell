@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 00:01:03 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 03:52:31 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/14 22:37:13 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,20 @@ void	print_prompt(int prompt)
 		write(1, p, ft_strlen(p));
 	else if (prompt == ERR0R_PROMPT)
 		write(1, pe, ft_strlen(pe));
+}
+
+char	*print_prompts(void)
+{
+	char *p;
+
+	p = "\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;33m➜ \033[0;37m";
+	return (p);
+}
+
+void	print_error_prompts(void)
+{
+	char	*pe;
+
+	pe = "\n\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;31m➜ \033[0;37m";
+	write(1, pe, ft_strlen(pe));
 }

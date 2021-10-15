@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 03:07:29 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 03:41:51 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/14 23:01:37 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	add_cmd_to_history(char *cmd, t_var **data)
 {
 	if (cmd == NULL || *data == NULL)
 		return (-1);
+	add_history(cmd);
 	(*data)->history = add_cmd(&(*data)->history, cmd);
 	if (*data == NULL)
 		return (-1);

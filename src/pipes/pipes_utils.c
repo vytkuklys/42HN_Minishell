@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/13 14:42:56 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/15 02:22:42 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,29 @@ int	check_command(char **argv, char *envp[])
 	}
 	free_array(path);
 	return (print_error_cmd(argv[0]));
+}
+
+int	check_absolute_command(char *argv, char *envp[])
+{
+	int		i;
+	int		cmd_len;
+	char	**path;
+
+	if (access(argv, X_OK) == -1)
+		return (print_error_cmd(argv));
+	cmd_len = ft_strlen(ft_strrchr(argv, '/')) - 1;
+	path = get_path(envp);
+	i = -1;
+	while (path[++i] != NULL)
+	{
+		if (!ft_strncmp(path[i], argv, ft_strlen(argv - cmd_len)))
+		{
+			free_array(path);
+			return (1);
+		}
+	}
+	free_array(path);
+	return (print_error_cmd(argv));
 }
 
 int	execute_builtin_command(char **argv, char *env[])

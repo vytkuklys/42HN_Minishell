@@ -6,9 +6,11 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/07/14 12:29:21 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/15 02:19:38 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 char
 	*ft_strrchr(const char *str, int c)
@@ -28,5 +30,5 @@ char
 		return ((char *)&str[i]);
 	if (found != -1)
 		return ((char *)&str[found]);
-	return (0);
+	return (NULL);
 }

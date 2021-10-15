@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 14:11:51 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/15 01:29:24 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,8 @@ int	main(int argc, char **argv, char **env)
 			cmd_line = ft_strjoin(&cmd_line, tmp);
 			free (tmp);
 		}
+		if (!cmd_line)
+			break ;
 		if (cmd_line && *cmd_line)
 			add_history(cmd_line);
 		if (error == 0)

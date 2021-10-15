@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
+/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 14:55:23 by jludt            ###   ########.fr       */
+/*   Updated: 2021/10/15 02:12:35 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,6 @@ char	**redirect_heredoc(char **argv);
 char	**redirect_in(char **argv);
 char	**redirect_append(char **argv);
 char	**redirect_out(char **argv);
+int		check_absolute_command(char *argv, char *envp[]);
 
 #endif

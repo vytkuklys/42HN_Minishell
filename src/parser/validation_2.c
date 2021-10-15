@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   argc.c                                             :+:      :+:    :+:   */
+/*   validation_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/01 18:23:17 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:51:21 by vkuklys          ###   ########.fr       */
+/*   Created: 2021/10/11 05:46:15 by vkuklys           #+#    #+#             */
+/*   Updated: 2021/10/11 06:02:55 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_arg_without_quotes(int *counted, int *argc)
-{
-	(*counted) = 1;
-	(*argc)++;
-}
-
-int	handle_quotes(char *cmd_line, int *counted, int *argc, int i)
-{
-	(*counted) = 1;
-	(*argc)++;
-	return (get_end_of_quote_pos(&cmd_line[i]));
-}
-
-int	handle_spaces(char *cmd_line, int *counted, int i)
-{
-	(*counted) = 0;
-	return (get_whitespace(&cmd_line[i + 1]));
-}
-
-int	get_argc(char *cmd_line)
+int get_last_char_index(char *cmd_line)
 {
 	int	counted;
 	int	argc;
@@ -57,5 +38,5 @@ int	get_argc(char *cmd_line)
 		}
 		i++;
 	}
-	return (argc);
+	return (i);
 }

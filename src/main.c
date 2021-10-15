@@ -6,93 +6,132 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/09 00:51:08 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/15 03:17:49 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_command(char *cmd_line)
+void	free_array(char **src)
 {
-    int i;
+	int	i;
 
-    i = 0;
+	i = 0;
+	while (src[i] != NULL)
+		free(src[i++]);
+	free(src);
+	i = 0;
+}
+
+int	print_error_cmd(char *src)
+{
+	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd(src, 2);
+	write(2, "\n", 1);
+	return (0);
+}
+
+char	**get_path(char *envp[])
+{
+	int		i;
+	char	**path;
+
+	i = -1;
+	while (envp[++i] != NULL)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+	path = ft_split(envp[i], ':');
+	path[0] = ft_strtrim(path[0], "PATH=");
+	i = -1;
+	while (path[++i] != NULL)
+		path[i] = ft_strjoin(&path[i], "/");
+	return (path);
+}
+
+
+int	check_absolute_command(char *argv, char *envp[])
+{
+	int		i;
+	int		cmd_len;
+	char	**path;
+
+	if (access(argv, X_OK) == -1)
+		return (print_error_cmd(argv));
+	cmd_len = ft_strlen(ft_strrchr(argv, '/')) - 1;
+	path = get_path(envp);
+	i = -1;
+	while (path[++i] != NULL)
+	{
+		if (!ft_strncmp(path[i], argv, ft_strlen(argv - cmd_len)))
+		{
+			free_array(path);
+			return (1);
+		}
+	}
+	free_array(path);
+	return (print_error_cmd(argv));
+}
+
+char    *get_command(char *cmd_line, t_var **data)
+{
+    int     i;
+    int     whitespace;
+    char    *cmd;
+
+    whitespace = get_whitespace(cmd_line);
+    i = whitespace;
     if (cmd_line == NULL)
         return NULL;
     while (cmd_line[i] != ' ' && cmd_line[i] != '\0')
         i++;
-    return ft_substr(cmd_line, 0, i);
+    cmd = ft_substr(cmd_line, whitespace, i - whitespace);
+    if (ft_strchr(cmd, '/') && check_absolute_command(cmd, (*data)->env))
+        cmd = ft_strrchr(cmd, '/') + 1;
+    return (cmd);
 }
 
-char	*get_pwd(char *cmd_line)
+int    handle_cmd_terminator(char **cmd_line, t_var **data)
 {
-    char	*output;
-	int		i;
+    int last_char;
+    char    *new;
 
-	if (cmd_line == NULL) //add clean exit
-		return (NULL);
-	i = 0;
-	while (cmd_line[i] != '\0')
-	{
-		if (cmd_line[i] != ' ')
-        	return ("pwd: too many arguments");
-		i++;
-	}
-    output = getenv("PWD");
-    return (output);
-}
-
-int process_command_line(char **cmd_line, t_var **data)
-{
-    char *cmd;
-    char *output;
-
-	if ((*data)->env == NULL)
-		return (0);
-    output = NULL;
-    cmd = get_command(*cmd_line);
-    if (!ft_strncmp(cmd, "pwd", 3))
-	{
-        output = get_pwd((*cmd_line) + 3);
-    	write(1, output, ft_strlen(output));
-		write(1, "\n", 1);
-	}
-	else if (!ft_strncmp(cmd, "echo", 4))
-	{
-		output = get_echo(*cmd_line, data);
-	}
-	else if (!ft_strncmp(cmd, "env", 3))
+    new = NULL;
+    last_char = get_last_char_index(*cmd_line);
+    if (last_char != -1 && (*data)->error != -1 && (*cmd_line)[last_char] == ';')
     {
+        new = ft_strdup(*cmd_line + last_char + 1);
+        if (new == NULL)
+            return (-1);
+        free(*cmd_line);
+        *cmd_line = NULL;
+        process_command_line(&new, data, get_command(new, data));
+    }
+    return (0);
+}
+
+int process_command_line(char **cmd_line, t_var **data, char *cmd)
+{
+    if (!ft_strncmp(cmd, "pwd", get_len(cmd, "pwd")))
+        ft_pwd();
+	else if (!ft_strncmp(cmd, "echo", get_len(cmd, "echo")))
+		(*data)->error = get_echo(*cmd_line, data);
+	else if (!ft_strncmp(cmd, "env", get_len(cmd, "env")))
 		get_env((*data)->env);
-    }
-    else if (!ft_strncmp(cmd, "exit", 4))
-    {
-        output = get_exit((*cmd_line) + 4);
-        if (!output)
-            return (0);
-        write(1, output, ft_strlen(output));
-    }
-    else if (!ft_strncmp(cmd, "export", 6))
-    {
-        ft_export(*cmd_line, data);
-    }
-    else if (!ft_strncmp(cmd, "unset", 5))
-    {
-        ft_unset(*cmd_line, data);
-    }
-    // else if (ft_strchr(cmd, '='))
-    // {
-    //     // set_variables(*cmd_line, data);
-    // }
+    else if (!ft_strncmp(cmd, "exit", get_len(cmd, "exit")))
+        (*data)->error = get_exit((*cmd_line) + 4);
+    else if (!ft_strncmp(cmd, "export", get_len(cmd, "export")))
+        (*data)->error = ft_export(*cmd_line, data);
+    else if (!ft_strncmp(cmd, "unset", get_len(cmd, "unset")))
+        (*data)->error = ft_unset(*cmd_line, data);
+    else if (!ft_strncmp(cmd, "cd", get_len(cmd, "cd")))
+        ft_cd(*cmd_line, data);
+    else if (!ft_strncmp(cmd, "history", get_len(cmd, "history")))
+        print_history((*data)->history);
 	else if (cmd[0] != '\0')
-	{
-		write(1, "minishell: command not found: ", 31);
-		write(1, cmd, ft_strlen(cmd));
-		write(1, "\n", 1);
-	}
-    free(*cmd_line);
-    *cmd_line = ft_calloc(1, 1);
-	if (*cmd_line == NULL) //add clean exit
+        print_cmd_not_found(cmd);
+    if (handle_cmd_terminator(cmd_line, data) == -1)
+        return (0);
+	if ((*data)->error == -1)
 		return (0);
     return (1);
 }
@@ -101,42 +140,39 @@ void process_signal(int signum)
 {
 	if (signum == SIGINT)
     {
-    	write(2, "\b\b", 2);
-		print_prompt(ERR0R_PROMPT);
+        rl_on_new_line();
+	    rl_replace_line("", 0);
+	    rl_redisplay();
+		print_error_prompts();
     }
 }
 
 int main(int argc, char **argv, char **env)
 {
-    int bytes;
-    char buff[2];
     char *cmd_line;
     t_var   *data;
 
     data = (t_var *)malloc(sizeof(t_var));
 	if (!data)
 		return (-1);
-    bytes = 1;
-	if (argc == 0 && argv == NULL)
+	if (argc == 0 && argv == NULL && env == NULL)
 		argc = 0;
     signal(SIGINT, process_signal);
     signal(SIGQUIT, process_signal);
-	print_prompt(PROMPT);
-	cmd_line = ft_calloc(1, 1);
     init_data(env, &data);
-    while (bytes > 0)
-    {
-        bytes = read(1, &buff, 1);
-        buff[bytes] = '\0';
-        if (buff[0] == '\n')
+    while (1)
+	{
+		cmd_line = readline(print_prompts());
+        if (!cmd_line)
+            break ;
+		if (cmd_line && *cmd_line)
         {
-            if (!process_command_line(&cmd_line, &data))
+            add_history(cmd_line);
+            if (!process_command_line(&cmd_line, &data, get_command(cmd_line, &data)))
                 break ;
-            print_prompt(PROMPT);
         }
-        else
-            cmd_line = ft_strjoin(&cmd_line, buff);
-    }
-    free_str(&cmd_line);
-    return (0);
+		free(cmd_line);
+	}
+    free_data(&data, &cmd_line);
+    exit(0);
 }

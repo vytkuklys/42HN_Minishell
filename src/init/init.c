@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:01:40 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:55:41 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/14 22:48:37 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,8 @@ int	init_data(char **env, t_var **data)
 {
 	if (init_env(env, data) == -1)
 		return (-1);
-	(*data)->variables = ft_calloc(1, sizeof(char *));
-	if ((*data)->variables == NULL)
-	{
-		free_2d_array(&(*data)->env);
-		return (-1);
-	}
-	(*data)->variables[0] = NULL;
+	(*data)->error = 0;
+	(*data)->history = (char **)malloc((1) * sizeof(char *));
+	(*data)->history[0] = NULL;
 	return (0);
 }

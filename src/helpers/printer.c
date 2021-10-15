@@ -6,11 +6,31 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 00:01:03 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 01:00:17 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/14 22:37:13 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+int print_cmd_not_found(char *cmd)
+{
+    int i;
+    int quote;
+
+    i = 0;
+    quote = 0;
+    while (cmd && cmd[i] != '\0')
+    {
+        if ((cmd[i] == '"' || cmd[i] == '\''))
+            quote++;
+        i++;
+    }
+    if (i == quote)
+        write(1, "minishell: command not found: \n", 32);
+    else
+        printf("minishell: command not found: %s\n", cmd);
+    return (0);
+}
 
 int	print_export_error(char *arg, int *flag, char *error)
 {
@@ -44,4 +64,20 @@ void	print_prompt(int prompt)
 		write(1, p, ft_strlen(p));
 	else if (prompt == ERR0R_PROMPT)
 		write(1, pe, ft_strlen(pe));
+}
+
+char	*print_prompts(void)
+{
+	char *p;
+
+	p = "\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;33m➜ \033[0;37m";
+	return (p);
+}
+
+void	print_error_prompts(void)
+{
+	char	*pe;
+
+	pe = "\n\U0001f476 \033[0;32m\033[1mminishell\033[0m \033[0;31m➜ \033[0;37m";
+	write(1, pe, ft_strlen(pe));
 }

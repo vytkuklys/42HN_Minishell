@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 03:07:29 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/14 23:01:37 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 09:24:35 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**add_cmd(char ***history, char *cmd)
 	}
 	tmp[i] = ft_strdup(cmd);
 	tmp[i + 1] = NULL;
-	free_2d_array(history);
+	free_array(history);
 	return (tmp);
 }
 

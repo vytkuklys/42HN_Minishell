@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 18:18:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:23:27 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 00:02:30 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ int	get_exit(char *cmd_line)
 		return (write(1, "minishell: invalid arguments\n", 30));
 	if (argc > 1)
 		return (write(1, "exit: too many arguments\n", 26));
-	return (-1);
+	return (-2);
 }

@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:31:21 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 09:26:39 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,5 +94,9 @@ int				ft_strlen_2d(char **s);
 int				ft_strrstr(const char *big, const char *lil);
 char			*ft_triple_strjoin(char **s1, char const *s2, char const *s3,
 					int len_s1);
+int				ft_strcmp(char *s1, char *s2);
+int				check_builtin_command(char *cmd);
+char			**get_path(char *envp[]);
+char			*ft_strjoin2(char **s1, const char *s2);
 
 #endif

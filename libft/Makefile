@@ -6,7 +6,7 @@
 #    By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 12:26:14 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/10 00:31:37 by vkuklys          ###   ########.fr        #
+#    Updated: 2021/10/17 09:26:44 by vkuklys          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ CFILES = ft_isalpha.c ft_isdigit.c ft_isascii.c ft_isprint.c ft_memset.c ft_memc
 ft_bzero.c ft_calloc.c ft_strlen.c ft_strlcpy.c ft_strlcat.c ft_strchr.c ft_strrchr.c ft_strncmp.c ft_strnstr.c ft_strdup.c \
 ft_toupper.c ft_tolower.c ft_atoi.c ft_substr.c ft_strjoin.c ft_strtrim.c ft_split.c ft_itoa.c ft_strmapi.c ft_striteri.c \
 ft_putchar_fd.c ft_putstr_fd.c ft_putendl_fd.c ft_putnbr_fd.c ft_isalnum.c ft_puthexa_fd.c ft_pow.c ft_put_unsigned_int_fd.c \
-ft_get_digit_count.c ft_get_min.c ft_free_2d_array.c ft_2d_strlen.c ft_strrstr.c ft_triple_strjoin.c
+ft_get_digit_count.c ft_get_min.c ft_free_2d_array.c ft_2d_strlen.c ft_strrstr.c ft_triple_strjoin.c ft_strcmp.c ft_strjoin2.c
 
 OFILES = $(CFILES:.c=.o)
 

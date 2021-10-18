@@ -6,17 +6,18 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 09:21:19 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/07 04:18:59 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 22:40:52 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	get_env(char *envp[])
+int	get_env(char *envp[])
 {
 	int	i;
 
 	i = 0;
 	while (envp && envp[i] != NULL)
 		printf("%s\n", envp[i++]);
+	return (1);
 }

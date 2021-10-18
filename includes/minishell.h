@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/18 00:02:44 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:30:48 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,8 @@ void	free_argv(char ***argv);
 void	execute_compound_commands(char ***argv, t_var **data, int pipes);
 char    *get_command(char *cmd_line, t_var **data);
 int		check_relative_and_absolute(char **argv, char *envp[]);
+char	**handle_heredoc(char **argv);
+int		count_pipes(char *cmd_line);
 
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prepare_execution.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 14:46:15 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/17 23:57:19 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:34:11 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	error_handling(char **argv)
 	return (0);
 }
 
-static char **handle_heredoc(char **argv)
+char **handle_heredoc(char **argv)
 {
 	int nbr_heredocs;
 	int	i;
@@ -49,7 +49,7 @@ static char **handle_heredoc(char **argv)
 	return (argv);
 }
 
-static char **handle_other_red(char **argv)
+static char **handle_redirections(char **argv)
 {
 	int i;
 
@@ -82,7 +82,6 @@ void	prepare_execution(char **argv, t_var **data)
 {
 	if (error_handling(argv))
 		return ;
-	argv = handle_heredoc(argv);
-	argv = handle_other_red(argv);
+	argv = handle_redirections(argv);
 	execute_cmd(argv, data);
 }

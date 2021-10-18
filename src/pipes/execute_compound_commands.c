@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_compound_commands.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/17 20:00:40 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 19:23:16 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	child(char ***argv, t_var **data, int fd[][2], int i, int pipes)
+static void	redirect_fd(int fd[][2], int i, int pipes, int heredocs)
 {
 	if (i == 0)
 	{
@@ -21,14 +21,32 @@ static void	child(char ***argv, t_var **data, int fd[][2], int i, int pipes)
 	}
 	else if (i == pipes)
 	{
-		if ((dup2(fd[i - 1][0], STDIN_FILENO) < 0))
-			return (perror("CHILD_PROCESS2"));
+		if (heredocs == 0)
+			if ((dup2(fd[i - 1][0], STDIN_FILENO) < 0))
+				return (perror("CHILD_PROCESS2"));
 	}
 	else
 	{
-		if ((dup2(fd[i - 1][0], 0) < 0) || (dup2(fd[i][1], 1) < 0))
-			return (perror("CHILD_PROCESS3"));
+		if (heredocs == 0)
+		{
+			if ((dup2(fd[i - 1][0], 0) < 0) || (dup2(fd[i][1], 1) < 0))
+				return (perror("CHILD_PROCESS3"));
+		}
+		else
+		{
+			if (dup2(fd[i][1], 1) < 0)
+				return (perror("CHILD_PROCESS4"));
+		}
 	}
+}
+
+static void	child(char ***argv, t_var **data, int fd[][2], int i, int pipes)
+{
+	int	heredocs;
+
+	heredocs = count_heredocs(argv[i]);
+	argv[i] = handle_heredoc(argv[i]);
+	redirect_fd(fd, i, pipes, heredocs);
 	close_fds(pipes, fd);
 	prepare_execution(argv[i], data);
 }
@@ -50,6 +68,8 @@ static void	pipe_fork(char ***argv, t_var **data, int pipes)
 			return (perror("FORK"));
 		if (pid == 0)
 			child(argv, data, fd, i, pipes);
+		if (i < pipes && count_heredocs(argv[i]))
+			waitpid(pid, NULL, 0);
 	}
 	i = -1;
 	while (++i < pipes)
@@ -77,7 +97,7 @@ void	execute_compound_commands(char ***argv, t_var **data, int pipes)
 {
 	int		*check_cmd;
 	int		i;
-
+	
 	check_cmd = (int *)malloc(sizeof(int) * pipes + 1);
 	i = -1;
 	while (++i <= pipes)

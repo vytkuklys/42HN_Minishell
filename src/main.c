@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/18 00:05:58 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:35:59 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	process_command_line(char **cmd_line, t_var **data)
 		return (1);
 	if ((*data)->env == NULL)
 		return (0);
-	nbr_of_pipes = exists_pipes(*cmd_line);
+	nbr_of_pipes = count_pipes(*cmd_line);
 	argv = (char ***)malloc(sizeof(char **) * nbr_of_pipes + 1);
 	if (argv == NULL)
 		return (0);

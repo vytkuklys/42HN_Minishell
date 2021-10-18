@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_single_command.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:43:29 by julian            #+#    #+#             */
-/*   Updated: 2021/10/18 00:03:54 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 16:41:48 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int	execute_single_command(char ***argv, t_var **data)
 		return (-1);
 	}
 	if (id == 0)
+	{
+		argv[0] = handle_heredoc(argv[0]);
 		prepare_execution(argv[0], data);
+	}
 	else
 		wait(NULL);
 	return (0);

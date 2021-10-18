@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/17 09:23:20 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/18 15:30:15 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,26 @@ void	close_fds(int pipes, int fd[][2])
 		close(fd[i][0]);
 		close(fd[i][1]);
 	}
+}
+
+int count_pipes(char *cmd_line)
+{
+	char	quote;
+	int		i;
+	int		pipes;
+
+	quote = '\0';
+	i = 0;
+	pipes = 0;
+	while (cmd_line[i] != '\0')
+	{
+		if (!quote && cmd_line[i] == '|' && !is_char_escaped(cmd_line, i))
+			pipes++;
+		if (!quote && (cmd_line[i] == '\'' || cmd_line[i] == '"'))
+			quote = cmd_line[i];
+		else if (quote && cmd_line[i] == quote && !is_char_escaped(cmd_line, i))
+			quote = '\0';
+		i++;
+	}
+	return (pipes);
 }

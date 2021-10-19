@@ -6,13 +6,13 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/30 22:55:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/13 04:22:10 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 09:25:08 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_2d_array(char ***arr)
+void	free_array(char ***arr)
 {
 	int		i;
 	char	**tmp;
@@ -43,8 +43,24 @@ char	*free_str(char **str)
 int	free_data(t_var **data, char **cmd)
 {
 	free_str(cmd);
-	free_2d_array(&(*data)->env);
-	free_2d_array(&(*data)->history);
+	free_array(&(*data)->env);
+	free_array(&(*data)->history);
 	free(*data);
 	return (0);
+}
+
+void	free_argv(char ***argv)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (argv[i] != NULL)
+	{
+		j = 0;
+		while (argv[i][j] != NULL)
+			free(argv[i][j++]);
+		free(argv[i++]);
+	}
+	free(argv);
 }

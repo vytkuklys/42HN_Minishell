@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 00:01:27 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:40:11 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 06:31:01 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ char	*get_arg(char *cmd_line, int len, char **env)
 		arg = ft_strjoin(&arg, tmp);
 		free(tmp);
 		tmp = NULL;
+		if (arg == NULL)
+			return (NULL);
 	}
 	return (arg);
 }
@@ -93,13 +95,16 @@ int	get_argv(char *cmd_line, char **argv, char **env)
 
 	i = 0;
 	j = 0;
-	while (cmd_line[i] != '\0' && cmd_line[i] != '|' && cmd_line[i] != ';')
+	// while (cmd_line[i] != '\0' && cmd_line[i] != '|' && cmd_line[i] != ';')
+	while (cmd_line[i] != '\0' && cmd_line[i] != '|')
 	{
 		len = 0;
 		if (cmd_line[i] != ' ')
 		{
 			len = get_arg_len(&cmd_line[i]);
 			argv[j] = get_arg(&cmd_line[i], len, env);
+			if (argv[j] == NULL)
+				return (-1);
 			j++;
 			i += len;
 		}

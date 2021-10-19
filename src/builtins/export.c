@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:48:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:25:30 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 23:21:31 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	**add_arg_to_env(char ***env, char *arg)
 	len = ft_strlen_2d((*env));
 	tmp = (char **)ft_calloc(len + 2, sizeof(char *));
 	if (tmp == NULL)
-		return (0);
+		return (NULL);
 	i = 0;
 	while (i < len)
 	{
@@ -35,7 +35,7 @@ char	**add_arg_to_env(char ***env, char *arg)
 	}
 	tmp[i] = ft_strdup((*env)[i - 1]);
 	tmp[i + 1] = NULL;
-	free_2d_array(env);
+	free_array(env);
 	return (tmp);
 }
 
@@ -61,7 +61,7 @@ int	is_arg_valid(char *argv, int *flag)
 	return (1);
 }
 
-int	doest_export_var_exists(char **env, char *arg)
+int	does_export_var_exists(char **env, char *arg)
 {
 	int	i;
 	int	j;
@@ -91,38 +91,38 @@ int	modify_arg_in_env(char **env, char *arg)
 
 	if ((*env) == NULL || arg == NULL)
 		return (-1);
-	index = doest_export_var_exists(env, arg);
+	index = does_export_var_exists(env, arg);
 	if (index == -1)
-		return (-1);
+		return (0);
 	tmp = env[index];
 	env[index] = ft_strdup(arg);
+	if (env[index] == NULL)
+		return (-1);
 	free(tmp);
 	tmp = NULL;
 	return (0);
 }
 
-int	ft_export(char *cmd_line, t_var **data)
+int	ft_export(char **argv, t_var **data)
 {
-	char	**argv;
 	int		i;
 	int		flag;
 
-	argv = get_variables(cmd_line, data);
-	if (argv == NULL)
-		return (-1);
 	i = 1;
 	flag = 0;
 	while (argv[i] != NULL)
 	{
 		if (is_arg_valid(argv[i], &flag))
 		{
-			if (doest_export_var_exists((*data)->env, argv[i]) != -1)
-				modify_arg_in_env((*data)->env, argv[i]);
+			if (does_export_var_exists((*data)->env, argv[i]) != -1)
+			{
+				if (modify_arg_in_env((*data)->env, argv[i]) == -1)
+					return (-1);
+			}
 			else
 				(*data)->env = add_arg_to_env(&(*data)->env, argv[i]);
 		}
 		i++;
 	}
-	free_2d_array(&argv);
-	return (0);
+	return (1);
 }

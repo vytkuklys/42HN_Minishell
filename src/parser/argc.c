@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 18:23:17 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:51:21 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 06:32:11 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ int	get_argc(char *cmd_line)
 	argc = 0;
 	counted = 0;
 	i = 0;
-	while (cmd_line[i] != '\0' && cmd_line[i] != '|' && cmd_line[i] != ';')
+	// while (cmd_line[i] != '\0' && cmd_line[i] != '|' && cmd_line[i] != ';')
+	while (cmd_line[i] != '\0' && cmd_line[i] != '|')
 	{
 		if (cmd_line[i] == ' ')
 			i += handle_spaces(cmd_line, &counted, i);

@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/08 00:54:09 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 05:29:28 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/17 23:37:21 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,17 +85,15 @@ char	**remove_arg_from_env(char ***env, char *arg)
 		i++;
 	}
 	tmp[j] = NULL;
-	free_2d_array(env);
+	free_array(env);
 	return (tmp);
 }
 
-int	ft_unset(char *cmd_line, t_var **data)
+int	ft_unset(char **argv, t_var **data)
 {
-	char	**argv;
 	int		i;
 	int		flag;
 
-	argv = get_variables(cmd_line, data);
 	if (argv == NULL)
 		return (-1);
 	i = 1;
@@ -111,6 +109,5 @@ int	ft_unset(char *cmd_line, t_var **data)
 	}
 	if ((*data)->env == NULL)
 		return (-1);
-	free_2d_array(&argv);
-	return (0);
+	return (1);
 }

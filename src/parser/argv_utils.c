@@ -6,7 +6,7 @@
 /*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/03 22:58:36 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:41:13 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 06:37:04 by vkuklys          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	get_arg_len(char *cmd_line)
 
 	i = 0;
 	len = 0;
-	while (cmd_line[i] != '\0' && !ft_strchr(";| ", cmd_line[i]))
+	// while (cmd_line[i] != '\0' && !ft_strchr(";| ", cmd_line[i]))
+	while (cmd_line[i] != '\0' && !ft_strchr("| ", cmd_line[i]))
 	{
 		if (ft_strchr("'\"", cmd_line[i]))
 			len += get_end_of_quote_pos(&cmd_line[i]) + 1;

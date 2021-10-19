@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 18:13:23 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 19:16:45 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 22:01:24 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static char	***fill_argv(char ***argv, char **split_at_pipe, t_var **data)
 	return (argv);
 }
 
-static int	single_command(char ***argv, t_var *data, char **cmd_line)
+static int	single_command(char ***argv, t_var **data, char **cmd_line)
 {
 	execute_single_command(argv, data);
 	free_argv(argv);
@@ -47,7 +47,7 @@ static int	single_command(char ***argv, t_var *data, char **cmd_line)
 	return (1);
 }
 
-static int	compound_command(char ***argv, t_var *data, char **cmd_line)
+static int	compound_command(char ***argv, t_var **data, char **cmd_line)
 {
 	execute_compound_commands(argv, data);
 	free_argv(argv);

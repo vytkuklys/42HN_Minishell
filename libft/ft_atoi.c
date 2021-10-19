@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:26:45 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/09/17 21:06:08 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 18:50:58 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,11 +84,11 @@ static int
 long long
 	ft_atoi(const char *str)
 {
-	long long		num;
-	int				i;
-	int				minus;
-	int				minMax;
-	int				symbols;
+	long long	num;
+	int			i;
+	int			minus;
+	int			minmax;
+	int			symbols;
 
 	num = 0;
 	i = 0;
@@ -103,9 +103,9 @@ long long
 		i++;
 	}
 	minus = ft_is_minus(str);
-	minMax = ft_is_min_max_valid(i, symbols, minus);
-	if (minMax == -1 || minMax == 0)
-		return (minMax);
+	minmax = ft_is_min_max_valid(i, symbols, minus);
+	if (minmax == -1 || minmax == 0)
+		return (minmax);
 	if (minus == 1)
 		return (num * -1);
 	return (num);

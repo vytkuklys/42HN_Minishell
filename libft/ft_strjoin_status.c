@@ -1,32 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_2d_array.c                                 :+:      :+:    :+:   */
+/*   ft_strjoin_status.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/09/15 22:16:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 18:49:03 by julian           ###   ########.fr       */
+/*   Created: 2021/06/23 16:09:43 by jludt             #+#    #+#             */
+/*   Updated: 2021/10/19 15:23:20 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_free_2d_array(char ***arr, unsigned int allocated)
+char	*ft_strjoin_status(char *s1, char *s2)
 {
-	unsigned int	i;
-	unsigned int	current;
+	char	*s_join;
+	int		len_s1;
+	int		len_s2;
+	int		i;
+	int		j;
 
-	current = 1;
-	if (*arr == NULL)
+	if (s1 == 0 || s2 == 0)
+		return (0);
+	len_s1 = ft_strlen(s1);
+	len_s2 = ft_strlen(s2);
+	s_join = (char *)malloc(sizeof(*s1) * (len_s1 + len_s2) + 1);
+	if (s_join == NULL)
 		return (NULL);
 	i = 0;
-	while (i < allocated + current)
+	while (s1[i] != '\0')
 	{
-		free((*arr)[i]);
+		s_join[i] = s1[i];
 		i++;
 	}
-	free(*arr);
-	*arr = NULL;
-	return (NULL);
+	j = 0;
+	while (s2[j] != '\0')
+		s_join[i++] = s2[j++];
+	s_join[i] = '\0';
+	free(s2);
+	return (s_join);
 }

@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   counter.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 22:50:32 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/15 00:15:36 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 18:59:16 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_len(char *s1, char *s2)
+int	get_len(char *s1, char *s2)
 {
-	int len_1;
-	int len_2;
+	int	len_1;
+	int	len_2;
 
 	if (s1 == NULL && s2 != NULL)
 		return (ft_strlen(s2));
-	len_1 = ft_strlen(s1);	
+	len_1 = ft_strlen(s1);
 	len_2 = ft_strlen(s2);
 	if (len_1 > len_2)
 		return (len_1);
-	return (len_2);	
+	return (len_2);
 }
 
 int	get_end_of_quote_pos(char *str)

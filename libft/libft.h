@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/17 09:26:39 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 15:25:06 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ int				ft_strcmp(char *s1, char *s2);
 int				check_builtin_command(char *cmd);
 char			**get_path(char *envp[]);
 char			*ft_strjoin2(char **s1, const char *s2);
+char			*ft_strjoin_status(char *s1, char *s2);
 
 #endif

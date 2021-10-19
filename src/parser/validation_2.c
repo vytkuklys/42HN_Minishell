@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   validation_2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 05:46:15 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/11 06:02:55 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 19:06:31 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int get_last_char_index(char *cmd_line)
+int	get_last_char_index(char *cmd_line)
 {
 	int	counted;
 	int	argc;

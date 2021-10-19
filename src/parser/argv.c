@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   argv.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 00:01:27 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 06:31:01 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 19:08:16 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ char	*get_text_in_quotes(char *s, int *index, char **env)
 	quote = ft_calloc(ft_strlen(s), 1);
 	if (quote == NULL)
 		return (NULL);
-	i = 1;
+	i = 0;
 	j = 0;
-	while (s[i] != '\0')
+	while (s[++i] != '\0')
 	{
 		if (s[i] == '\\')
 			i += add_slashes(&quote, &s[i], &j) - 1;
-		else if (s[i] == s[0] && is_char_escaped(s, i) && are_slashes_even(s, i))
+		else if (s[i] == s[0] && is_char_escaped(s, i) \
+			&& are_slashes_even(s, i))
 			break ;
 		else if (!(s[i] == s[0] && !is_char_escaped(s, i)))
 		{
 			quote[j] = s[i];
 			j++;
 		}
-		i++;
 	}
 	expand_variable(&quote, env, s[0]);
 	(*index) += i + 1;

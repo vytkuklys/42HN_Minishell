@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:01:40 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 08:02:49 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 19:00:15 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ int	init_env(char **env, t_var **data)
 	return (0);
 }
 
-void process_signal(int signum)
+void	process_signal(int signum)
 {
 	if (signum == SIGINT)
-    {
-        // rl_on_new_line();
-	    // rl_replace_line("", 0);
-	    // rl_redisplay();
+	{
+		// rl_on_new_line();
+		// rl_replace_line("", 0);
+		// rl_redisplay();
 		// print_error_prompts();
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-    }
+	}
 }
 
-void init_signals(void)
+void	init_signals(void)
 {
 	signal(SIGINT, process_signal);
 	signal(SIGQUIT, process_signal);
@@ -79,7 +79,11 @@ int	init_data(char **env, t_var **data, int argc, char **argv)
 		return (-1);
 	(*data)->error = 0;
 	(*data)->exit = 0;
+	(*data)->pipes = 0;
+	(*data)->status = 0;
+	(*data)->rl_error = 0;
 	(*data)->history = (char **)malloc((1) * sizeof(char *));
 	(*data)->history[0] = NULL;
+	ft_status(data);
 	return (0);
 }

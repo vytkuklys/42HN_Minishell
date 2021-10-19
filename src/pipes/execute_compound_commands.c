@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 12:41:12 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:12:34 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static void	child(char ***argv, t_var **data, int fd[][2], int i)
 {
 	int	heredocs;
 
-	// signal(SIGINT, SIG_IGN);
 	heredocs = count_heredocs(argv[i]);
 	argv[i] = handle_heredoc(argv[i]);
 	redirect_fd(fd, i, (*data)->pipes, heredocs);
@@ -83,26 +82,15 @@ static void	pipe_fork(char ***argv, t_var **data)
 		wait(NULL);
 }
 
-int	check_relative_and_absolute(char **argv, char *envp[])
-{
-	int	check_cmd;
-
-	if (ft_strchr(argv[0], '/'))
-		check_cmd = check_absolute_command(argv[0], envp);
-	else
-		check_cmd = check_command(argv, envp);
-	return (check_cmd);
-}
-
 void	execute_compound_commands(char ***argv, t_var **data)
 {
 	int		*check_cmd;
 	int		i;
-	
+
 	check_cmd = (int *)malloc(sizeof(int) * (*data)->pipes + 1);
 	i = -1;
 	while (++i <= (*data)->pipes)
-		check_cmd[i] = check_relative_and_absolute(&argv[i][0], (*data)->env);
+		check_cmd[i] = check_relative_and_absolute(&argv[i][0], data);
 	i = -1;
 	while (++i <= (*data)->pipes)
 	{
@@ -113,5 +101,6 @@ void	execute_compound_commands(char ***argv, t_var **data)
 		}
 	}
 	free(check_cmd);
+	(*data)->status = 0;
 	pipe_fork(argv, data);
 }

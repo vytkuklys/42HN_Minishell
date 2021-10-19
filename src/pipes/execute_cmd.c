@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:31:48 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 12:45:08 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:13:51 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	execute_cmd(char **argv, t_var **data)
 	if (!execute_builtin_command(argv, data, get_command(*argv, data)))
 	{
 		free_array(&argv); //leak
-		exit(EXIT_SUCCESS) ;
+		exit(EXIT_SUCCESS);
 	}
 	if (ft_strchr(argv[0], '/'))
 		execve(argv[0], argv, (*data)->env);

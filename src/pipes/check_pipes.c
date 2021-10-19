@@ -6,29 +6,30 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:33:01 by julian            #+#    #+#             */
-/*   Updated: 2021/10/15 18:56:11 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:13:19 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	check_ending(char *s)
+static int	check_ending(char *s, t_var *data)
 {
 	int	i;
 
 	i = ft_strlen(s);
-	if (s[--i] == '|')	
+	if (s[--i] == '|')
 	{
 		if (s[--i] == '\\')
 		{
 			printf("minishell: syntax error near unexpected token `|'\n");
+			data->status = 258;
 			return (1);
 		}
 	}
 	return (0);
 }
 
-static int	check_pipes_error(char *s)
+static int	check_pipes_error(char *s, t_var *data)
 {
 	int	i;
 
@@ -44,17 +45,19 @@ static int	check_pipes_error(char *s)
 				{
 					printf("minishell: syntax error \
 						near unexpected token `||'\n");
+					data->status = 258;
 					return (1);
 				}
 			}
 			printf("minishell: syntax error near unexpected token `|'\n");
+			data->status = 258;
 			return (1);
 		}
 	}
 	return (0);
 }
 
-static int	check_pipes_beginning(char *s)
+static int	check_pipes_beginning(char *s, t_var *data)
 {
 	int	i;
 
@@ -67,19 +70,20 @@ static int	check_pipes_beginning(char *s)
 			printf("minishell: syntax error near unexpected token `||'\n");
 		else
 			printf("minishell: syntax error near unexpected token `|'\n");
+		data->status = 258;
 		return (1);
 	}
 	else
 		return (0);
 }
 
-int	check_pipes(char **cmd_line)
+int	check_pipes(char **cmd_line, t_var *data)
 {	
-	if (check_pipes_beginning(*cmd_line))
+	if (check_pipes_beginning(*cmd_line, data))
 		return (1);
-	if (check_pipes_error(*cmd_line))
+	if (check_pipes_error(*cmd_line, data))
 		return (1);
-	if (check_ending(*cmd_line))
+	if (check_ending(*cmd_line, data))
 		return (1);
 	return (0);
 }

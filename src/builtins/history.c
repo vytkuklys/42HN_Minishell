@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   history.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 03:07:29 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 06:25:32 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 18:53:19 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**add_cmd(char ***history, char *cmd)
 	return (tmp);
 }
 
-int print_history(char **history)
+int	print_history(char **history)
 {
 	int	len;
 	int	i;

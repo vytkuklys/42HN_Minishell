@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validation.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/01 19:38:51 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/10 00:37:36 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 19:06:08 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,31 +81,31 @@ int	are_quotes_valid(char *cmd_line)
 	return (0);
 }
 
-int	are_slashes_valid(char *cmd_line)
+int	are_slashes_valid(char *s)
 {
 	char	quote;
-	int		i;
-	int		j;
+	int		i[2];
 
 	quote = '\0';
-	i = 0;
-	while (cmd_line && cmd_line[i] != '\0')
+	i[0] = 0;
+	while (s && s[i[0]] != '\0')
 	{
-		j = 0;
-		if (!quote && cmd_line[i] == '\\')
+		i[1] = 0;
+		if (!quote && s[i[0]] == '\\')
 		{
-			while (cmd_line[i + j] == '\\')
-				j++;
-			if ((j % 2 == 1 && ft_strchr(" \0", cmd_line[i + j])))
+			while (s[i[0] + i[1]] == '\\')
+				i[1]++;
+			if ((i[1] % 2 == 1 && ft_strchr(" \0", s[i[0] + i[1]])))
 				return (0);
-			else if (j % 2 == 0 && ft_strchr("\"'", cmd_line[i + j]) && cmd_line[i + j] != '\0')
+			else if (i[1] % 2 == 0 && ft_strchr("\"'", s[i[0] + i[1]]) \
+				&& s[i[0] + i[1]] != '\0')
 				return (0);
 		}
-		if (!quote && (cmd_line[i] == '\'' || cmd_line[i] == '"'))
-			quote = cmd_line[i];
-		else if (quote && cmd_line[i] == quote && !is_char_escaped(cmd_line, i))
+		if (!quote && (s[i[0]] == '\'' || s[i[0]] == '"'))
+			quote = s[i[0]];
+		else if (quote && s[i[0]] == quote && !is_char_escaped(s, i[0]))
 			quote = '\0';
-		i += 1 + j;
+		i[0] += 1 + i[1];
 	}
 	return (1);
 }

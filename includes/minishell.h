@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 12:40:10 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 18:47:38 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_var
 	int		error;
 	int		exit;
 	int		pipes;
+	int		status;
+	int		rl_error;
 }			t_var;
 
 void	print_prompt(int prompt);
@@ -66,7 +68,7 @@ int		get_last_char_index(char *cmd_line);
 void	handle_arg_without_quotes(int *counted, int *argc);
 int		handle_quotes(char *cmd_line, int *counted, int *argc, int i);
 int		handle_spaces(char *cmd_line, int *counted, int i);
-int     process_command_line(char **cmd_line, t_var **data);
+int		process_command_line(char **cmd_line, t_var **data);
 int		print_history(char **history);
 int		add_cmd_to_history(char *cmd, t_var **data);
 int		print_cmd_not_found(char *cmd);
@@ -74,31 +76,34 @@ int		free_data(t_var **data, char **cmd);
 char	*print_prompts(void);
 void	print_error_prompts(void);
 int		get_len(char *s1, char *s2);
-int     check_pipes(char **cmd_line);
+int		check_pipes(char **cmd_line, t_var *data);
 void	execute_cmd(char **argv, t_var **data);
 int		execute_single_command(char ***argv, t_var **data);
 char	**ft_split_pipe(char *s, char c, char *d);
 void	close_fds(int pipes, int fd[][2]);
-int     check_absolute_command(char *argv, char *envp[]);
-int     check_command(char **argv, char *envp[]);
+int		check_absolute_command(char *argv, t_var **data);
+int		check_command(char **argv, t_var **data);
 char	**get_path(char *envp[]);
-int     print_error_cmd(char *src);
+int		print_error_cmd(char *src);
 void	pr_error(char *s1, char *s2);
 void	prepare_execution(char **argv, t_var **data);
 char	**redirect_append(char **argv);
 char	**redirect_heredoc(char **argv, int pos, int nbr_heredocs);
-int     count_heredocs(char **argv);
+int		count_heredocs(char **argv);
 char	**redirect_in(char **argv);
 char	**redirect_out(char **argv);
 char	**update_argv(char **argv, char *redirection);
-int     check_builtin_command(char *cmd);
-int     execute_builtin_command(char **cmd_line, t_var **data, char *cmd);
+int		check_builtin_command(char *cmd);
+int		execute_builtin_command(char **cmd_line, t_var **data, char *cmd);
 void	free_argv(char ***argv);
 void	execute_compound_commands(char ***argv, t_var **data);
-char    *get_command(char *cmd_line, t_var **data);
-int		check_relative_and_absolute(char **argv, char *envp[]);
+char	*get_command(char *cmd_line, t_var **data);
+int		check_relative_and_absolute(char **argv, t_var **data);
 char	**handle_heredoc(char **argv);
 int		count_pipes(char *cmd_line);
 int		init_data(char **env, t_var **data, int argc, char **argv);
+int		ft_status(t_var **data);
+int		check_input(char **argv, t_var **data);
+int		process_command_line(char **cmd_line, t_var **data);
 
 #endif

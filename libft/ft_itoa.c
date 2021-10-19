@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:27:26 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:27:32 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 18:51:55 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,16 +55,16 @@ int
 static int
 	ft_get_zeros(int n, long long reverse)
 {
-	int	reverseDigits;
-	int	nDigits;
+	int	reverse_digits;
+	int	n_digits;
 
-	reverseDigits = ft_get_digit_counts(reverse);
-	nDigits = ft_get_digit_counts(n);
+	reverse_digits = ft_get_digit_counts(reverse);
+	n_digits = ft_get_digit_counts(n);
 	if (n < 0)
-		nDigits--;
+		n_digits--;
 	if (n == 0)
 		return (1);
-	return (nDigits - reverseDigits);
+	return (n_digits - reverse_digits);
 }
 
 char

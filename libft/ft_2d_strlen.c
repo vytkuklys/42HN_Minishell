@@ -3,18 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_2d_strlen.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:58:37 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/07 04:35:12 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 18:52:26 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int ft_strlen_2d(char **s)
+int	ft_strlen_2d(char **s)
 {
-	int len;
+	int	len;
 
 	len = 0;
 	while (s[len] != NULL)

@@ -6,34 +6,18 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 14:46:15 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/18 15:34:11 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:14:33 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int	error_handling(char **argv)
+char	**handle_heredoc(char **argv)
 {
-	int	i;
-	
-	i = 0;
-	while (argv[i] != NULL)
-		i++;
-	if (!ft_strcmp(argv[i - 1], "<") || !ft_strcmp(argv[i - 1], ">") \
-		|| !ft_strcmp(argv[i - 1], "<<") || !ft_strcmp(argv[i - 1], ">>"))
-	{
-		printf("minishell: syntax error near unexpected token `newline'\n");
-		return (1);
-	}
-	return (0);
-}
-
-char **handle_heredoc(char **argv)
-{
-	int nbr_heredocs;
+	int	nbr_heredocs;
 	int	i;
 	int	j;
-	
+
 	nbr_heredocs = count_heredocs(argv);
 	i = -1;
 	j = 0;
@@ -49,9 +33,9 @@ char **handle_heredoc(char **argv)
 	return (argv);
 }
 
-static char **handle_redirections(char **argv)
+static char	**handle_redirections(char **argv)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (argv[++i] != NULL)
@@ -80,8 +64,7 @@ static char **handle_redirections(char **argv)
 
 void	prepare_execution(char **argv, t_var **data)
 {
-	if (error_handling(argv))
-		return ;
 	argv = handle_redirections(argv);
+	(*data)->status = 0;
 	execute_cmd(argv, data);
 }

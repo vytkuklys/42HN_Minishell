@@ -6,64 +6,11 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/18 15:30:15 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/19 19:15:01 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	check_command(char **argv, char *envp[])
-{
-	int		i;
-	char	*cmd;
-	char	**path;
-
-	if (!ft_strcmp(argv[0], "<") || !ft_strcmp(argv[0], ">") \
-		|| !ft_strcmp(argv[0], "<<") || !ft_strcmp(argv[0], ">>"))
-		return (1);
-	if (check_builtin_command(argv[0]))
-		return (1);
-	path = get_path(envp);
-	i = -1;
-	while (path[++i] != NULL)
-	{
-		cmd = ft_strjoin2(&path[i], argv[0]);
-		if (cmd == NULL)
-			break ;
-		if (access(cmd, X_OK) != -1)
-		{
-			free(cmd);
-			free_array(&path);
-			return (1);
-		}
-		free(cmd);
-	}
-	free_array(&path);
-	return (print_error_cmd(argv[0]));
-}
-
-int	check_absolute_command(char *argv, char *envp[])
-{
-	int		i;
-	int		cmd_len;
-	char	**path;
-
-	if (access(argv, X_OK) == -1)
-		return (print_error_cmd(argv));
-	cmd_len = ft_strlen(ft_strrchr(argv, '/')) - 1;
-	path = get_path(envp);
-	i = -1;
-	while (path[++i] != NULL)
-	{
-		if (!ft_strncmp(path[i], argv, ft_strlen(argv - cmd_len)))
-		{
-			free_array(&path);
-			return (1);
-		}
-	}
-	free_array(&path);
-	return (print_error_cmd(argv));
-}
 
 void	close_fds(int pipes, int fd[][2])
 {
@@ -77,7 +24,7 @@ void	close_fds(int pipes, int fd[][2])
 	}
 }
 
-int count_pipes(char *cmd_line)
+int	count_pipes(char *cmd_line)
 {
 	char	quote;
 	int		i;
@@ -97,4 +44,42 @@ int count_pipes(char *cmd_line)
 		i++;
 	}
 	return (pipes);
+}
+
+void	pr_error(char *s1, char *s2)
+{
+	if (s1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(s1, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	if (s2)
+		ft_putstr_fd(s2, 2);
+	write(2, "\n", 1);
+}
+
+int	print_error_cmd(char *src)
+{
+	ft_putstr_fd("minishell: command not found: ", 2);
+	ft_putstr_fd(src, 2);
+	write(2, "\n", 1);
+	return (0);
+}
+
+char	**get_path(char *envp[])
+{
+	int		i;
+	char	**path;
+
+	i = -1;
+	while (envp[++i] != NULL)
+		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
+			break ;
+	path = ft_split(envp[i], ':');
+	path[0] = ft_strtrim(path[0], "PATH=");
+	i = -1;
+	while (path[++i] != NULL)
+		path[i] = ft_strjoin(&path[i], "/");
+	return (path);
 }

@@ -6,7 +6,7 @@
 #    By: julian <julian@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/07/14 12:26:14 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/18 19:32:36 by julian           ###   ########.fr        #
+#    Updated: 2021/10/19 12:48:46 by julian           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,10 +30,10 @@ libft.a: $(CFILES) libft.h
 	ar -crs libft.a $(OFILES)
 
 clean:
-	rm -f $(OFILES) $(BONUSOFILES)
+	#rm -f $(OFILES) $(BONUSOFILES)
 
 fclean: clean
-	rm -f libft.a
+	#rm -f libft.a
 
 re: fclean all
 

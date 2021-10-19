@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 06:12:01 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/19 12:40:10 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_var
 	char	**env;
 	int		error;
 	int		exit;
+	int		pipes;
 }			t_var;
 
 void	print_prompt(int prompt);
@@ -93,7 +94,7 @@ char	**update_argv(char **argv, char *redirection);
 int     check_builtin_command(char *cmd);
 int     execute_builtin_command(char **cmd_line, t_var **data, char *cmd);
 void	free_argv(char ***argv);
-void	execute_compound_commands(char ***argv, t_var **data, int pipes);
+void	execute_compound_commands(char ***argv, t_var **data);
 char    *get_command(char *cmd_line, t_var **data);
 int		check_relative_and_absolute(char **argv, char *envp[]);
 char	**handle_heredoc(char **argv);

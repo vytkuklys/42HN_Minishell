@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:05:23 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 18:57:15 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 11:06:37 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,27 @@ int	execute_builtin_command(char **cmd_line, t_var **data, char *cmd)
 
 int	check_builtin_command(char *cmd)
 {
-	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "cd", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "pwd", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "export", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "unset", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "env", ft_strlen(cmd))
-		|| !ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+	if (!ft_strcmp(cmd, "echo")
+		|| !ft_strcmp(cmd, "cd")
+		|| !ft_strcmp(cmd, "pwd")
+		|| !ft_strcmp(cmd, "export")
+		|| !ft_strcmp(cmd, "unset")
+		|| !ft_strcmp(cmd, "env")
+		|| !ft_strcmp(cmd, "exit"))
 		return (1);
 	else
 		return (0);
 }
+// int	check_builtin_command(char *cmd)
+// {
+// 	if (!ft_strncmp(cmd, "echo", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "cd", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "pwd", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "export", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "unset", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "env", ft_strlen(cmd))
+// 		|| !ft_strncmp(cmd, "exit", ft_strlen(cmd)))
+// 		return (1);
+// 	else
+// 		return (0);
+// }

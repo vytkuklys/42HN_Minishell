@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 13:33:01 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 19:13:19 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 08:18:15 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,19 @@ static int	check_ending(char *s, t_var *data)
 	int	i;
 
 	i = ft_strlen(s);
-	if (s[--i] == '|')
+	while (s[--i] == ' ')
+		;
+	if (s[i] == '|')
 	{
-		if (s[--i] == '\\')
+		if (s[i - 1] == '\\')
 		{
 			printf("minishell: syntax error near unexpected token `|'\n");
+			data->status = 258;
+			return (1);
+		}
+		if (s[i - 1] == '|' && s[i - 2] != '\\')
+		{
+			printf("minishell: OR operator not supported\n");
 			data->status = 258;
 			return (1);
 		}
@@ -31,27 +39,27 @@ static int	check_ending(char *s, t_var *data)
 
 static int	check_pipes_error(char *s, t_var *data)
 {
-	int	i;
+	int		i;
+	char	*error;
 
 	i = 0;
+	error = "minishell: syntax error near unexpected token `|";
 	while (s[++i] != '\0')
 	{
-		if (s[i] == '|' && s[i + 1] == ' ' && s[i + 2] == '|' \
-			&& s[i - 1] != '\\')
+		if (s[i] == '|')
 		{
-			if (s[i + 3])
+			i++;
+			while (s[i] == ' ' && s[i] != '\0')
+				i++;
+			if (s[i] == '|')
 			{
-				if (s[i + 3] == '|')
-				{
-					printf("minishell: syntax error \
-						near unexpected token `||'\n");
-					data->status = 258;
-					return (1);
-				}
+				if (s[i + 1] == '|')
+					printf("%s|'\n", error);
+				else
+					printf("%s'\n", error);
+				data->status = 258;
+				return (1);
 			}
-			printf("minishell: syntax error near unexpected token `|'\n");
-			data->status = 258;
-			return (1);
 		}
 	}
 	return (0);

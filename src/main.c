@@ -6,17 +6,27 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 23:39:30 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 19:17:19 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 08:26:39 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
+static char	last_valid_char(char *cmd_line)
+{
+	int	i;
+
+	i = ft_strlen(cmd_line);
+	while (cmd_line[--i] == ' ')
+		;
+	return (cmd_line[i]);
+}
+
 static char	*get_cmd_line(char *cmd_line, t_var *data)
 {
 	char	*tmp;
 
-	while ((cmd_line[ft_strlen(cmd_line) - 1] == '|') && data->rl_error != 1)
+	while ((last_valid_char(cmd_line) == '|') && data->rl_error != 1)
 	{
 		tmp = readline("> ");
 		if (!tmp)

@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 15:43:29 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 19:12:15 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 07:49:20 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ int	execute_single_command(char ***argv, t_var **data)
 	execute_builtin_command(argv[0], data, get_command((*argv)[0], data));
 	if ((*data)->error)
 		return (handle_error(data));
+	(*data)->status = 0;
 	id = fork();
 	if (id < 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 18:47:38 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 07:44:41 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int		print_error_cmd(char *src);
 void	pr_error(char *s1, char *s2);
 void	prepare_execution(char **argv, t_var **data);
 char	**redirect_append(char **argv);
-char	**redirect_heredoc(char **argv, int pos, int nbr_heredocs);
 int		count_heredocs(char **argv);
 char	**redirect_in(char **argv);
 char	**redirect_out(char **argv);

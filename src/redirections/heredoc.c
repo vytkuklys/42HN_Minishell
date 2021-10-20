@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vkuklys <vkuklys@student.42.fr>            +#+  +:+       +#+        */
+/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/13 14:50:04 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/19 08:15:04 by vkuklys          ###   ########.fr       */
+/*   Updated: 2021/10/20 07:44:22 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	handle_fd(int pos, int nbr_heredocs, int *fd)
 	close(fd[1]);
 }
 
-char	**redirect_heredoc(char **argv, int pos, int nbr_heredocs)
+static char	**redirect_heredoc(char **argv, int pos, int nbr_heredocs)
 {
 	int		i;
 	char	*line;
@@ -44,9 +44,29 @@ char	**redirect_heredoc(char **argv, int pos, int nbr_heredocs)
 		free(line);
 		line = readline("> ");
 	}
-	exit(1);
 	handle_fd(pos, nbr_heredocs, fd);
 	return (update_argv(argv, "<<"));
+}
+
+char	**handle_heredoc(char **argv)
+{
+	int	nbr_heredocs;
+	int	i;
+	int	j;
+
+	nbr_heredocs = count_heredocs(argv);
+	i = -1;
+	j = 0;
+	while (argv[++i] != NULL)
+	{
+		if (!ft_strcmp(argv[i], "<<"))
+		{
+			argv = redirect_heredoc(argv, ++j, nbr_heredocs);
+			i = -1;
+			continue ;
+		}
+	}
+	return (argv);
 }
 
 int	count_heredocs(char **argv)

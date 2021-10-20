@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/20 11:45:57 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 13:10:06 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int		get_exit(char *cmd_line, t_var **data);
 int		get_arg_len(char *cmd_line);
 int		add_char_to_text(char **str, char *cmd_line, int *j, int i);
 int		ft_export(char **argv, t_var **data);
+int		print_export(char *envp[]);
 void	free_array(char ***arr);
 int		print_export_error(char *arg, int *flag, char *error);
 int		is_char_escaped(char *cmd_line, int i);

@@ -6,7 +6,7 @@
 #    By: julian <julian@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/09/29 20:11:29 by vkuklys           #+#    #+#              #
-#    Updated: 2021/10/20 11:37:07 by julian           ###   ########.fr        #
+#    Updated: 2021/10/20 13:10:34 by julian           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRC= src/main.c src/process_cmd_line/process_cmd_line.c src/helpers/printer.c sr
 		src/pipes/execute_compound_commands.c src/pipes/execute_single_command.c src/pipes/pipes_utils.c src/pipes/prepare_execution.c \
 		src/builtins/handle_builtin_cmd.c src/redirections/heredoc.c src/redirections/output.c src/pipes/check_command.c \
 		src/redirections/input.c src/redirections/append.c src/redirections/update_argv.c src/pipes/execute_cmd.c src/helpers/status.c \
-		src/pipes/handle_fds.c
+		src/pipes/handle_fds.c src/builtins/export_helper.c
 INCLUDES=libft/libft.a
 LFLAGS = -L$$HOME/.brew/opt/readline/lib -lreadline
 CPFLAGS = -I$$HOME/.brew/opt/readline/include

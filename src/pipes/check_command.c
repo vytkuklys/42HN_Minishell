@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/19 17:18:27 by julian            #+#    #+#             */
-/*   Updated: 2021/10/20 11:06:23 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 12:20:52 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,10 @@ int	check_absolute_command(char *argv, t_var **data)
 	char	**path;
 
 	if (access(argv, X_OK) == -1)
+	{
+		(*data)->status = 127;
 		return (print_error_cmd(argv));
+	}
 	cmd_len = ft_strlen(ft_strrchr(argv, '/')) - 1;
 	path = get_path((*data)->env);
 	i = -1;
@@ -33,6 +36,7 @@ int	check_absolute_command(char *argv, t_var **data)
 	}
 	free_array(&path);
 	(*data)->status = 127;
+	fprintf(stderr, "here\n");
 	return (print_error_cmd(argv));
 }
 

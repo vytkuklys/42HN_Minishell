@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:48:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 12:39:04 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 13:15:46 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,11 @@ int	ft_export(char **argv, t_var **data)
 	int		i;
 	int		flag;
 
+	i = 0;
+	while (argv[i] != NULL)
+		i++;	
+	if (i == 1)
+		return (print_export((*data)->env));
 	i = 1;
 	flag = 0;
 	while (argv[i] != NULL)

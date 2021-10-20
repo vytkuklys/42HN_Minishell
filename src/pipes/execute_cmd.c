@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 18:31:48 by julian            #+#    #+#             */
-/*   Updated: 2021/10/19 19:13:51 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 12:24:10 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	execute_cmd(char **argv, t_var **data)
 		execve(cmd, argv, (*data)->env);
 		free(cmd);
 	}
+	(*data)->status = 1;
 	free_array(&path);
 	free_array(&argv); //leak
 }

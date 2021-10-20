@@ -6,13 +6,13 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/20 11:19:22 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 11:46:56 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	redirect_fd(int fd[][2], int i, int pipes, int heredocs)
+static void	redirect_fd(int **fd, int i, int pipes, int heredocs)
 {
 	if (i == 0)
 	{
@@ -40,7 +40,7 @@ static void	redirect_fd(int fd[][2], int i, int pipes, int heredocs)
 	}
 }
 
-static void	child(char ***argv, t_var **data, int fd[][2], int i)
+static void	child(char ***argv, t_var **data, int **fd, int i)
 {
 	int	heredocs;
 
@@ -48,15 +48,17 @@ static void	child(char ***argv, t_var **data, int fd[][2], int i)
 	argv[i] = handle_heredoc(argv[i]);
 	redirect_fd(fd, i, (*data)->pipes, heredocs);
 	close_fds((*data)->pipes, fd);
+	free_fds((*data)->pipes, fd);
 	prepare_execution(argv[i], data);
 }
 
 static void	pipe_fork(char ***argv, t_var **data)
 {
-	int		fd[(*data)->pipes][2];
+	int		**fd;
 	pid_t	pid;
 	int		i;
 
+	fd = init_fds((*data)->pipes);
 	i = -1;
 	while (++i < (*data)->pipes)
 		pipe(fd[i]);
@@ -71,12 +73,8 @@ static void	pipe_fork(char ***argv, t_var **data)
 		if (i < (*data)->pipes && count_heredocs(argv[i]))
 			waitpid(pid, NULL, 0);
 	}
-	i = -1;
-	while (++i < (*data)->pipes)
-	{
-		close(fd[i][0]);
-		close(fd[i][1]);
-	}
+	close_fds((*data)->pipes, fd);
+	free_fds((*data)->pipes, fd);
 	i = -1;
 	while (++i <= (*data)->pipes)
 		wait(NULL);

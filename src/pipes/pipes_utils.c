@@ -6,23 +6,11 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/19 19:15:01 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 11:33:17 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	close_fds(int pipes, int fd[][2])
-{
-	int	i;
-
-	i = -1;
-	while (++i < pipes)
-	{
-		close(fd[i][0]);
-		close(fd[i][1]);
-	}
-}
 
 int	count_pipes(char *cmd_line)
 {

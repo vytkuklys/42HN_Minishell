@@ -6,7 +6,7 @@
 /*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/20 07:44:41 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/20 11:45:57 by julian           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,9 @@ int		check_pipes(char **cmd_line, t_var *data);
 void	execute_cmd(char **argv, t_var **data);
 int		execute_single_command(char ***argv, t_var **data);
 char	**ft_split_pipe(char *s, char c, char *d);
-void	close_fds(int pipes, int fd[][2]);
+int		**init_fds(int pipes);
+void	close_fds(int pipes, int **fd);
+void	free_fds(int pipes, int **fd);
 int		check_absolute_command(char *argv, t_var **data);
 int		check_command(char **argv, t_var **data);
 char	**get_path(char *envp[]);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   status.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/06 20:48:21 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/19 18:59:39 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/21 17:05:55 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,5 +93,6 @@ int	ft_status(t_var **data)
 	}
 	else
 		(*data)->env = add_arg_to_env_status(&(*data)->env, argv);
+	free(argv);
 	return (1);
 }

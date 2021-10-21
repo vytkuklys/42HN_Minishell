@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/11 16:54:58 by jludt             #+#    #+#             */
-/*   Updated: 2021/10/20 11:33:17 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/21 17:05:26 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ char	**get_path(char *envp[])
 		if (ft_strncmp(envp[i], "PATH=", 5) == 0)
 			break ;
 	path = ft_split(envp[i], ':');
-	path[0] = ft_strtrim(path[0], "PATH=");
+	path[0] = ft_strtrim_free(path[0], "PATH=");
 	i = -1;
 	while (path[++i] != NULL)
 		path[i] = ft_strjoin(&path[i], "/");

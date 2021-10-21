@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_compound_commands.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/05 18:06:09 by julian            #+#    #+#             */
-/*   Updated: 2021/10/20 11:46:56 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/21 17:02:30 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,27 +16,22 @@ static void	redirect_fd(int **fd, int i, int pipes, int heredocs)
 {
 	if (i == 0)
 	{
-		if (dup2(fd[i][1], STDOUT_FILENO) < 0)
-			return (perror("CHILD_PROCESS1"));
+		dup2(fd[i][1], STDOUT_FILENO);
 	}
 	else if (i == pipes)
 	{
 		if (heredocs == 0)
-			if ((dup2(fd[i - 1][0], STDIN_FILENO) < 0))
-				return (perror("CHILD_PROCESS2"));
+			dup2(fd[i - 1][0], STDIN_FILENO);
 	}
 	else
 	{
 		if (heredocs == 0)
 		{
-			if ((dup2(fd[i - 1][0], 0) < 0) || (dup2(fd[i][1], 1) < 0))
-				return (perror("CHILD_PROCESS3"));
+			dup2(fd[i - 1][0], STDIN_FILENO);
+			dup2(fd[i][1], STDOUT_FILENO);
 		}
 		else
-		{
-			if (dup2(fd[i][1], 1) < 0)
-				return (perror("CHILD_PROCESS4"));
-		}
+			dup2(fd[i][1], STDOUT_FILENO);
 	}
 }
 
@@ -89,15 +84,6 @@ void	execute_compound_commands(char ***argv, t_var **data)
 	i = -1;
 	while (++i <= (*data)->pipes)
 		check_cmd[i] = check_relative_and_absolute(&argv[i][0], data);
-	i = -1;
-	while (++i <= (*data)->pipes)
-	{
-		if (check_cmd[i] == 0)
-		{
-			free(check_cmd);
-			return ;
-		}
-	}
 	free(check_cmd);
 	(*data)->status = 0;
 	pipe_fork(argv, data);

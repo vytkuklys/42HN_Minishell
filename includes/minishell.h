@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/14 12:29:47 by vkuklys           #+#    #+#             */
-/*   Updated: 2021/10/20 13:10:06 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/21 17:57:14 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,5 +107,6 @@ int		init_data(char **env, t_var **data, int argc, char **argv);
 int		ft_status(t_var **data);
 int		check_input(char **argv, t_var **data);
 int		process_command_line(char **cmd_line, t_var **data);
+int		exec_single_builtin_command(char **cmd_line, t_var **data, char *cmd);
 
 #endif

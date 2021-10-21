@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_builtin_cmd.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: julian <julian@student.42.fr>              +#+  +:+       +#+        */
+/*   By: jludt <jludt@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/15 19:05:23 by julian            #+#    #+#             */
-/*   Updated: 2021/10/20 11:06:37 by julian           ###   ########.fr       */
+/*   Updated: 2021/10/21 18:01:46 by jludt            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,29 @@ int	execute_builtin_command(char **cmd_line, t_var **data, char *cmd)
 	else if (!ft_strncmp(cmd, "env", get_len(cmd, "env")))
 		(*data)->error = get_env((*data)->env);
 	else if (!ft_strncmp(cmd, "exit", get_len(cmd, "exit")))
+		(*data)->error = get_exit((*cmd_line) + 4, data);
+	else if (!ft_strncmp(cmd, "export", get_len(cmd, "export")))
+		(*data)->error = ft_export(cmd_line, data);
+	else if (!ft_strncmp(cmd, "unset", get_len(cmd, "unset")))
+		(*data)->error = ft_unset(cmd_line, data);
+	else if (!ft_strncmp(cmd, "cd", get_len(cmd, "cd")))
+		(*data)->error = ft_cd(cmd_line);
+	if (handle_cmd_terminator(cmd_line, data) == -1)
+	{
+		(*data)->status = 3;
+		return (0);
+	}
+	if ((*data)->error)
+	{
+		(*data)->status = 0;
+		return (0);
+	}
+	return (1);
+}
+
+int	exec_single_builtin_command(char **cmd_line, t_var **data, char *cmd)
+{
+	if (!ft_strncmp(cmd, "exit", get_len(cmd, "exit")))
 		(*data)->error = get_exit((*cmd_line) + 4, data);
 	else if (!ft_strncmp(cmd, "export", get_len(cmd, "export")))
 		(*data)->error = ft_export(cmd_line, data);

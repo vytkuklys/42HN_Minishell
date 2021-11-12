@@ -22,3 +22,5 @@ In this minishell you can:
 * Type ```make``` command in the terminal
 * Execute program with the created variable: ```./minishell```
 * Try out different functionalities listed above
+
+This project was developed together with <a href="https://github.com/JL1709">JL1709</a>
